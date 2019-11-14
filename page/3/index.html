@@ -357,7 +357,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/27/2019-6-27_設定權限/">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/27/2019-6-27_登出登入建立關聯/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Tao Chen">
@@ -377,7 +377,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/06/27/2019-6-27_設定權限/" class="post-title-link" itemprop="url">認證功能-權限、登出功能(不包含登出按鈕)</a>
+                <a href="/2019/06/27/2019-6-27_登出登入建立關聯/" class="post-title-link" itemprop="url">建立使用者功能與資料關聯</a>
               
             
           </h1>
@@ -458,18 +458,19 @@
         
           
             <p>
-              設定 auth middleware，在所有路由上增加認證功能，不管做任何 post、 put、delete 動作都需要 auth 認證。
-auth 即為 認證(authentication)
-步驟
-新增 auth.js 檔案在 config 資料夾。
-將邏輯加入路由器，收到請求時檢查使用者權限。
+              AC教材 todo list 練習。
+當完成專案與認證功能後，會發現登入後大家看到的都是一樣的資訊，而沒有專屬自己的頁面。
 
+這時候就必須要將 model 中的 user 與資料建立起關聯。
+修改路由與 controller，讓 model 在查詢更新資料庫，只會取得/修改已經登入者的資料。
+
+da
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2019/06/27/2019-6-27_設定權限/#more" rel="contents">
+              <a class="btn" href="/2019/06/27/2019-6-27_登出登入建立關聯/#more" rel="contents">
                 閱讀全文 &raquo;
               </a>
             </div>
@@ -1215,174 +1216,6 @@ actio
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/13/2019-6-13_Install_Node.js/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Tao Chen">
-      <meta itemprop="description" content="carpe diem">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Tao's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/13/2019-6-13_Install_Node.js/" class="post-title-link" itemprop="url">使用 Node.js</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-
-              
-                
-              
-
-              <time title="創建時間：2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">2019-06-13</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars
-2Wwhat?Node.js 是什麼?Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/06/13/2019-6-13_Install_Node.js/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/13/2019-6-13_trash_talk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1492,6 +1325,174 @@ actio
           
             <div class="post-button text-center">
               <a class="btn" href="/2019/06/13/2019-6-13_trash_talk/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/13/2019-6-13_Install_Node.js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/06/13/2019-6-13_Install_Node.js/" class="post-title-link" itemprop="url">使用 Node.js</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">2019-06-13</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars
+2Wwhat?Node.js 是什麼?Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/06/13/2019-6-13_Install_Node.js/#more" rel="contents">
                 閱讀全文 &raquo;
               </a>
             </div>
