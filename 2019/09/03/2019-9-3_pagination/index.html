@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言紀錄學習分頁的實作邏輯，將大量需要呈現的資訊分隔開來，避免造成瀏覽問題。 邏輯在製作分頁的時候會需要使用到幾個要點，限制每頁需要的資料，在前往下一頁的時候需要使用偏移。  limit: 限制資訊筆數 offset: 偏移量 page: 目前頁數 pages: 全部數到的頁數 totalPage: 將 pages 轉換成頁碼 array 方便前端渲染 previous: 往前一頁 next: 往">
+<meta name="keywords" content="sequelize,javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pagination 分頁實作">
+<meta property="og:url" content="https://ctaohe.github.io/2019/09/03/2019-9-3_pagination/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前言紀錄學習分頁的實作邏輯，將大量需要呈現的資訊分隔開來，避免造成瀏覽問題。 邏輯在製作分頁的時候會需要使用到幾個要點，限制每頁需要的資料，在前往下一頁的時候需要使用偏移。  limit: 限制資訊筆數 offset: 偏移量 page: 目前頁數 pages: 全部數到的頁數 totalPage: 將 pages 轉換成頁碼 array 方便前端渲染 previous: 往前一頁 next: 往">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-09-03T06:37:05.709Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pagination 分頁實作">
+<meta name="twitter:description" content="前言紀錄學習分頁的實作邏輯，將大量需要呈現的資訊分隔開來，避免造成瀏覽問題。 邏輯在製作分頁的時候會需要使用到幾個要點，限制每頁需要的資料，在前往下一頁的時候需要使用偏移。  limit: 限制資訊筆數 offset: 偏移量 page: 目前頁數 pages: 全部數到的頁數 totalPage: 將 pages 轉換成頁碼 array 方便前端渲染 previous: 往前一頁 next: 往">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/09/03/2019-9-3_pagination/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Pagination 分頁實作 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/09/03/2019-9-3_pagination/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pagination 分頁實作
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-09-03 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-03T00:00:00+08:00">2019-09-03</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>紀錄學習分頁的實作邏輯，將大量需要呈現的資訊分隔開來，避免造成瀏覽問題。</p>
+<h2 id="邏輯"><a href="#邏輯" class="headerlink" title="邏輯"></a>邏輯</h2><p>在製作分頁的時候會需要使用到幾個要點，限制每頁需要的資料，在前往下一頁的時候需要使用偏移。</p>
+<ul>
+<li>limit: 限制資訊筆數</li>
+<li>offset: 偏移量</li>
+<li>page: 目前頁數</li>
+<li>pages: 全部數到的頁數</li>
+<li>totalPage: 將 pages 轉換成頁碼 array 方便前端渲染</li>
+<li>previous: 往前一頁</li>
+<li>next: 往後移頁</li>
+</ul>
+<p>搭配 <a href="https://sequelize.org/master/manual/querying.html#pagination---limiting" target="_blank" rel="noopener">sequelize</a> 提供的語法 offset、limit 來完成目的</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Fetch 10 instances/rows</span></span><br><span class="line">Project.findAll(&#123; <span class="attr">limit</span>: <span class="number">10</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Skip 8 instances/rows</span></span><br><span class="line">Project.findAll(&#123; <span class="attr">offset</span>: <span class="number">8</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Skip 5 instances and fetch the 5 after that</span></span><br><span class="line">Project.findAll(&#123; <span class="attr">offset</span>: <span class="number">5</span>, <span class="attr">limit</span>: <span class="number">5</span> &#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><ol>
+<li>設定讀取筆數</li>
+<li>宣告頁碼</li>
+<li>宣告 offset 計算偏移量</li>
+<li>計算總頁數(無條件進位) = 總資料數 / 讀取筆數</li>
+<li>使用 array 寫進數量</li>
+<li>使用判斷式，計算前一頁頁數</li>
+<li>使用判斷式，計算下一頁頁數</li>
+</ol>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><p>最初:<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 設定讀取筆數</span></span><br><span class="line"><span class="keyword">let</span> pagaLimit = <span class="number">10</span></span><br><span class="line"><span class="comment">// 宣告頁碼</span></span><br><span class="line"><span class="keyword">let</span> page = <span class="built_in">Number</span>(req.query.page) || <span class="number">1</span></span><br><span class="line"><span class="comment">// 宣告 offset 計算偏移量</span></span><br><span class="line"><span class="keyword">let</span> offset = <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> (req.query.page) &#123;</span><br><span class="line">  offset = (req.query.page - <span class="number">1</span>) * pageLimit</span><br><span class="line">&#125;</span><br><span class="line">Project.findAndCountAll(&#123;<span class="attr">offest</span>: offset, <span class="attr">limit</span>: pagaLimit&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">projects</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 計算總頁數</span></span><br><span class="line">  <span class="keyword">let</span> pages = <span class="built_in">Math</span>.ceil( projects.count / pageLimit )</span><br><span class="line">  <span class="comment">// 產生 array</span></span><br><span class="line">  <span class="keyword">let</span> totalPage = <span class="built_in">Array</span>.from(&#123;<span class="attr">length</span>: pages&#125;).map(<span class="function">(<span class="params">item, index</span>) =&gt;</span> index + <span class="number">1</span>)</span><br><span class="line">  <span class="comment">// 前一頁</span></span><br><span class="line">  <span class="keyword">let</span> prev = page - <span class="number">1</span> &lt; <span class="number">1</span> ? <span class="number">1</span> : page <span class="number">-1</span></span><br><span class="line">  <span class="comment">// 後一頁</span></span><br><span class="line">  <span class="keyword">let</span> next = page + <span class="number">1</span> &gt; pages ? pages : page + <span class="number">1</span></span><br><span class="line">  <span class="keyword">return</span> res.render(<span class="string">'path'</span>, &#123;projects, page, totalPage, prev, next&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>第二次實作:<br>最後需要傳出 page、 totalPage、 prev、next，一樣會使用到 pagaLimit、page、offse、totalPage、prev、next。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 從其他地方傳入筆數</span></span><br><span class="line"><span class="keyword">let</span> pagaLimit = <span class="number">10</span></span><br><span class="line"><span class="keyword">const</span> middleware = &#123;</span><br><span class="line">  <span class="comment">// refactor 程式碼，先取得 page，跟要傳入資料庫的條件limiting。</span></span><br><span class="line">  pageInfo: <span class="function">(<span class="params">pageLimit, pageNumber = <span class="number">1</span></span>) =&gt;</span> &#123; <span class="comment">// pageNumber 預設 1</span></span><br><span class="line">    <span class="keyword">const</span> page = <span class="built_in">parseInt</span>(pageNumber) <span class="comment">// 轉型字串</span></span><br><span class="line">    <span class="keyword">const</span> limiting = &#123; <span class="attr">offset</span>: pageLimit * (page - <span class="number">1</span>), <span class="attr">limit</span>: pageLimit&#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// refactor 取得 totalPage，在找出資料後傳入，1.資料筆數、2.限制筆數、3.當前頁數</span></span><br><span class="line">  getPagination: <span class="function">(<span class="params">count, pageLimit, page</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> pages =  <span class="built_in">Math</span>.ceil(count / pageLimit) <span class="comment">// 筆數 / 限制筆數取得總頁數</span></span><br><span class="line">    <span class="comment">// 製作成 array 使用到 pages。</span></span><br><span class="line">    <span class="keyword">let</span> totalPage = <span class="built_in">Array</span>.from(&#123; <span class="attr">length</span>: pages &#125;, (item, index) =&gt; index + <span class="number">1</span>)</span><br><span class="line">    <span class="comment">// 前頁</span></span><br><span class="line">    <span class="keyword">let</span> prev = page - <span class="number">1</span> &lt; <span class="number">1</span> ? <span class="number">1</span> : page - <span class="number">1</span></span><br><span class="line">    <span class="comment">// 下頁</span></span><br><span class="line">    <span class="keyword">let</span> next = page + <span class="number">1</span> &gt; pages ? pages : page + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> &#123;totalPage, prev, next&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用的地方</span></span><br><span class="line"><span class="comment">// require middleware</span></span><br><span class="line"><span class="keyword">const</span> controller = &#123;</span><br><span class="line">  getInformation: <span class="keyword">async</span> (req, res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; page, limiting &#125; = <span class="keyword">await</span> pageInfo(pageLimit, req.query.page)</span><br><span class="line">      <span class="keyword">const</span> projects = <span class="keyword">await</span> Project.findAndCountAll(limiting)</span><br><span class="line">      <span class="keyword">const</span> &#123;totalPage, prev, next&#125; = <span class="keyword">await</span> getPagination(projects.count, pageLimit, page)</span><br><span class="line">      <span class="keyword">return</span> res.render(<span class="string">'path'</span>, &#123;projects, page, totalPage, prev, next&#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(error)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>將目前學習到的分頁方式做個小整理，在未來希望能夠了解更多不同的做法。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sequelize/" rel="tag"># sequelize</a>
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/2019-8-19_UXpart2/" rel="next" title="Alpha Camp 了解產品設計思考與使用者體驗(下)">
+                <i class="fa fa-chevron-left"></i> Alpha Camp 了解產品設計思考與使用者體驗(下)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/19/2019-10-19_newebpay/" rel="prev" title="藍新金流串接實作">
+                藍新金流串接實作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#邏輯"><span class="nav-number">2.</span> <span class="nav-text">邏輯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步驟"><span class="nav-number">3.</span> <span class="nav-text">步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實作"><span class="nav-number">4.</span> <span class="nav-text">實作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#心得"><span class="nav-number">5.</span> <span class="nav-text">心得</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言heroku 對於一個剛開始學習網路開發的學習者，算是非常的友善和方便。在免費的 application 佈署下有個限制，完成佈署後如果沒有使用者造訪網站，便會在最後一次造訪後的半個小時後進入休眠。 而每次要重新喚醒進入網站的時候，第一次總是會讀取很久，造成體驗上的不適。也是許多人想要解決的問題。 在最簡單的方式下便是花一點小費用，升級伺服器，讓伺服器可以不進入休眠狀態。另外一種方式便是每半個">
+<meta name="keywords" content="heroku">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keep free heroku alive">
+<meta property="og:url" content="https://ctaohe.github.io/2019/11/06/2019-11-6_keep_heroku_alive/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前言heroku 對於一個剛開始學習網路開發的學習者，算是非常的友善和方便。在免費的 application 佈署下有個限制，完成佈署後如果沒有使用者造訪網站，便會在最後一次造訪後的半個小時後進入休眠。 而每次要重新喚醒進入網站的時候，第一次總是會讀取很久，造成體驗上的不適。也是許多人想要解決的問題。 在最簡單的方式下便是花一點小費用，升級伺服器，讓伺服器可以不進入休眠狀態。另外一種方式便是每半個">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/ARaXQ0tDMfXPP2NZRkZymsOQlhxMjMARhFfSvyOOTlyzqRH07JSgQy2lzyPG-C5JvJd2X_QVYMsGcgty6Dv3ACc6JJsnJZVRKGNbxvhQ8jmeD4ViI11LTRbhrd9HBSakmKiSLeu9T_9JEKa19ySjk1ichzT-M4Uz1ZLj9vrxZDVkDd5rzqzVJFlGJio9me7rhFYEpo2PIf1bfMKtFrAfQS-Los7gMKW0PRYMTJd4BpBlqeRvlENT4U03LzJO6JAbi53YJ8B-uYENjHxM8dpBS5m_D3zfltFumLswrl4IC23xA2icXU2Gmzaor_pMAKAsp6YIy1Ef56g7TQximF-Slc0v98bjSCSD9FBryFKgT96sbKiZbdIkvnjp5qUWx-Pa9UKEDJ4zOmPESwuIv1SCt8iRT5X1NTsrcapXQpOvK1bNRDoWy593ZKa3xZJ29qPkVB9rpRNjiAKnJwWT-eGN6iWrK44LWsaJVFH0QFzMi969Szjo_l9M4BkYcSN6rlipxucZVI_e79RzyxsMun5Htv2WEUMJjpFW_4QQXrqTxKzXsgbbyk1-wydxv0ezVfvrzGfeeogSSaHlNmcko3WZEnPWcc5OQITCr67N_mXQwxS-1nP_dxeUOY2wyAeRooWGEJ7sf-RMfRmBxwBNVprtdcvuC3GG4Hh-mC3hSiXSc4wlKrGy5sLCmCfyfbIBO7WI-u38QAakmNimQVp-7tTyxFNTWzlq0ukaJraOol9C973k6tw=w769-h800-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/JAonY3f1LrvU6XM_b-1oHxwcyizQRtLvC7ghhD-8TULuGqGiL4IJbYVSSXOJknBRyk2XG_vpB_FTFaW-K9Xlc_R0DIswGeyOr0Px0s-K92uRP4sGroawAKRrr3CK46iAncwpGbQPvT1UsAN7xVHYIkXZ_VdOI3hGCYpWFXvrbfRLcFLV6-hVuycMqwytu--OK8X6iKPtZnl-60GANaCGFMT_XaBR7xPi0watJnhZXaU8FygD0_zJkpJegAQzNfFDkNpeQOw6ov0tnPIFVL0vanwGJWD1pyu1TS8JP-LCq1wMpnhWLfFDXnO6gfnH4dQTJnUM9l78lEXIVYpUj6xwcEaiT_uD0vG0T-PVSFPzAqZ-pWtM8YKQQ9L-1Gc0siLLNBESAKLAXo9AcDh0TY2THxrgiXeifnstIN5wsqXWfUTFm2_0CZ7HwX7NwuiV2X_C22gKQa4aeutOTCJaPeGh7_KkJ-FzN37kedSZYIKAKg2BAbmwgZqhp8WGhTbYeSxXSQhVgBoDW8Smly7HJ1SyihKkkXqpNC_nGiIiiU_QP5uD_5d8BHGWw-QKpVunNNpO2JTOFMQqRVs0oUkzFdF2Gctq2KlTrzyaeoeqht39hulN6EfQVdrC2Fou37Yli-i3DSdN-lmjekJF-IP6jfirpUrzkQPLfyAGSXv6rnkGf0nTDYJNe7KXOv_-cpnZsl5fA_Jo7ekOWq-lmqGCJhMcqoq_ZpDrTyKRzQ45zpML51KWqVU=w949-h640-no">
+<meta property="og:updated_time" content="2019-11-14T09:25:51.958Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Keep free heroku alive">
+<meta name="twitter:description" content="前言heroku 對於一個剛開始學習網路開發的學習者，算是非常的友善和方便。在免費的 application 佈署下有個限制，完成佈署後如果沒有使用者造訪網站，便會在最後一次造訪後的半個小時後進入休眠。 而每次要重新喚醒進入網站的時候，第一次總是會讀取很久，造成體驗上的不適。也是許多人想要解決的問題。 在最簡單的方式下便是花一點小費用，升級伺服器，讓伺服器可以不進入休眠狀態。另外一種方式便是每半個">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/ARaXQ0tDMfXPP2NZRkZymsOQlhxMjMARhFfSvyOOTlyzqRH07JSgQy2lzyPG-C5JvJd2X_QVYMsGcgty6Dv3ACc6JJsnJZVRKGNbxvhQ8jmeD4ViI11LTRbhrd9HBSakmKiSLeu9T_9JEKa19ySjk1ichzT-M4Uz1ZLj9vrxZDVkDd5rzqzVJFlGJio9me7rhFYEpo2PIf1bfMKtFrAfQS-Los7gMKW0PRYMTJd4BpBlqeRvlENT4U03LzJO6JAbi53YJ8B-uYENjHxM8dpBS5m_D3zfltFumLswrl4IC23xA2icXU2Gmzaor_pMAKAsp6YIy1Ef56g7TQximF-Slc0v98bjSCSD9FBryFKgT96sbKiZbdIkvnjp5qUWx-Pa9UKEDJ4zOmPESwuIv1SCt8iRT5X1NTsrcapXQpOvK1bNRDoWy593ZKa3xZJ29qPkVB9rpRNjiAKnJwWT-eGN6iWrK44LWsaJVFH0QFzMi969Szjo_l9M4BkYcSN6rlipxucZVI_e79RzyxsMun5Htv2WEUMJjpFW_4QQXrqTxKzXsgbbyk1-wydxv0ezVfvrzGfeeogSSaHlNmcko3WZEnPWcc5OQITCr67N_mXQwxS-1nP_dxeUOY2wyAeRooWGEJ7sf-RMfRmBxwBNVprtdcvuC3GG4Hh-mC3hSiXSc4wlKrGy5sLCmCfyfbIBO7WI-u38QAakmNimQVp-7tTyxFNTWzlq0ukaJraOol9C973k6tw=w769-h800-no">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/11/06/2019-11-6_keep_heroku_alive/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Keep free heroku alive | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/11/06/2019-11-6_keep_heroku_alive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Keep free heroku alive
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-11-06 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-06T00:00:00+08:00">2019-11-06</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>heroku 對於一個剛開始學習網路開發的學習者，算是非常的友善和方便。在免費的 application 佈署下有個限制，完成佈署後如果沒有使用者造訪網站，便會在最後一次造訪後的半個小時後進入休眠。</p>
+<p>而每次要重新喚醒進入網站的時候，第一次總是會讀取很久，造成體驗上的不適。也是許多人想要解決的問題。</p>
+<p>在最簡單的方式下便是花一點小費用，升級伺服器，讓伺服器可以不進入休眠狀態。另外一種方式便是每半個小時觸發一次造訪網站。</p>
+<p>可行的方式便是設定 scheduler 或者藉由第三方造訪。</p>
+<p>heroku 也有為此提供 addons，可惜的在免費的使用者有著 dyno hours 限制。</p>
+<p><a href="https://devcenter.heroku.com/changelog-items/907" target="_blank" rel="noopener">https://devcenter.heroku.com/changelog-items/907</a></p>
+<p>在未提供信用卡的條件下，有著 550 free dyno hours，提供了之後會再增加 450 hours。所以總共最多會有 1000 hours。</p>
+<p>那甚麼是 dyno hours 呢? <a href="https://devcenter.heroku.com/articles/usage-and-billing#computing-usage" target="_blank" rel="noopener">https://devcenter.heroku.com/articles/usage-and-billing#computing-usage</a></p>
+<p>heroku 做出了解釋，簡單的說也就是伺服器被程式觸發運行的時間，在我們如果不觸發長時間的運行下，1000 hours 是無法使用完的，但如果要讓他長時間醒著，表示 24 hrs都可以快速進入網站的情境下，一個月會使用掉 720 ~ 744 hours，剩餘可以使用設置 addons 便只剩餘 256 小時，所以使用內建的 scheduler 便無法滿足免費的狀態下，使用不休眠的網站。</p>
+<h2 id="選擇的方法"><a href="#選擇的方法" class="headerlink" title="選擇的方法"></a>選擇的方法</h2><p>最後我選擇不使用 heroku 的 scheduler 插件增加額外的 dyno hours，也不在程式碼中，設置行程設定，避免萬一休眠時無法執行問題，而是選擇較為簡便的方式，</p>
+<ul>
+<li><a href="https://cron-job.org/en/" target="_blank" rel="noopener">https://cron-job.org/en/</a></li>
+</ul>
+<p>使用這個網站來幫我解決半小時觸發的問題。在使用上也是非常快速和簡單。</p>
+<p>步驟:</p>
+<ol>
+<li><p>註冊</p>
+</li>
+<li><p>完成註冊並且登入後，點選 members &gt; <code>Cronjobs</code> &gt; 右邊的 <code>Create conjobs</code></p>
+</li>
+</ol>
+<p><img src="https://lh3.googleusercontent.com/ARaXQ0tDMfXPP2NZRkZymsOQlhxMjMARhFfSvyOOTlyzqRH07JSgQy2lzyPG-C5JvJd2X_QVYMsGcgty6Dv3ACc6JJsnJZVRKGNbxvhQ8jmeD4ViI11LTRbhrd9HBSakmKiSLeu9T_9JEKa19ySjk1ichzT-M4Uz1ZLj9vrxZDVkDd5rzqzVJFlGJio9me7rhFYEpo2PIf1bfMKtFrAfQS-Los7gMKW0PRYMTJd4BpBlqeRvlENT4U03LzJO6JAbi53YJ8B-uYENjHxM8dpBS5m_D3zfltFumLswrl4IC23xA2icXU2Gmzaor_pMAKAsp6YIy1Ef56g7TQximF-Slc0v98bjSCSD9FBryFKgT96sbKiZbdIkvnjp5qUWx-Pa9UKEDJ4zOmPESwuIv1SCt8iRT5X1NTsrcapXQpOvK1bNRDoWy593ZKa3xZJ29qPkVB9rpRNjiAKnJwWT-eGN6iWrK44LWsaJVFH0QFzMi969Szjo_l9M4BkYcSN6rlipxucZVI_e79RzyxsMun5Htv2WEUMJjpFW_4QQXrqTxKzXsgbbyk1-wydxv0ezVfvrzGfeeogSSaHlNmcko3WZEnPWcc5OQITCr67N_mXQwxS-1nP_dxeUOY2wyAeRooWGEJ7sf-RMfRmBxwBNVprtdcvuC3GG4Hh-mC3hSiXSc4wlKrGy5sLCmCfyfbIBO7WI-u38QAakmNimQVp-7tTyxFNTWzlq0ukaJraOol9C973k6tw=w769-h800-no" alt="option"></p>
+<p>title、address 填入你想造訪的網站，這邊我是使用非需登入使用的首頁做為觸發。</p>
+<ol start="3">
+<li><p>在 user-defined exection dates 做設定，month、 week 每個都是完全需要的，hours 的設定上，現在 heroku 已經取消每天 18 hrs的免費限制，可以使用 24 hrs，但我還是會設定在凌晨12點至早上8-9點是不觸發的。</p>
+</li>
+<li><p>minutes 則是設定 0 和 30 兩個選項做為執行，而有時我會設定在 55 分和 25 分。</p>
+</li>
+<li><p>完成後便點選最下方的 Create cronjob。</p>
+</li>
+</ol>
+<p>當開始運作後，可以看到行程是否有成功或失敗以及觸發的時間。<br><img src="https://lh3.googleusercontent.com/JAonY3f1LrvU6XM_b-1oHxwcyizQRtLvC7ghhD-8TULuGqGiL4IJbYVSSXOJknBRyk2XG_vpB_FTFaW-K9Xlc_R0DIswGeyOr0Px0s-K92uRP4sGroawAKRrr3CK46iAncwpGbQPvT1UsAN7xVHYIkXZ_VdOI3hGCYpWFXvrbfRLcFLV6-hVuycMqwytu--OK8X6iKPtZnl-60GANaCGFMT_XaBR7xPi0watJnhZXaU8FygD0_zJkpJegAQzNfFDkNpeQOw6ov0tnPIFVL0vanwGJWD1pyu1TS8JP-LCq1wMpnhWLfFDXnO6gfnH4dQTJnUM9l78lEXIVYpUj6xwcEaiT_uD0vG0T-PVSFPzAqZ-pWtM8YKQQ9L-1Gc0siLLNBESAKLAXo9AcDh0TY2THxrgiXeifnstIN5wsqXWfUTFm2_0CZ7HwX7NwuiV2X_C22gKQa4aeutOTCJaPeGh7_KkJ-FzN37kedSZYIKAKg2BAbmwgZqhp8WGhTbYeSxXSQhVgBoDW8Smly7HJ1SyihKkkXqpNC_nGiIiiU_QP5uD_5d8BHGWw-QKpVunNNpO2JTOFMQqRVs0oUkzFdF2Gctq2KlTrzyaeoeqht39hulN6EfQVdrC2Fou37Yli-i3DSdN-lmjekJF-IP6jfirpUrzkQPLfyAGSXv6rnkGf0nTDYJNe7KXOv_-cpnZsl5fA_Jo7ekOWq-lmqGCJhMcqoq_ZpDrTyKRzQ45zpML51KWqVU=w949-h640-no" alt="result"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/heroku/" rel="tag"># heroku</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/05/2019-11-5_jsoneditoronline/" rel="next" title="jsoneditoronline.org">
+                <i class="fa fa-chevron-left"></i> jsoneditoronline.org
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/07/2019-11-7_momentjs/" rel="prev" title="好用的時間套件 moment">
+                好用的時間套件 moment <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#選擇的方法"><span class="nav-number">2.</span> <span class="nav-text">選擇的方法</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

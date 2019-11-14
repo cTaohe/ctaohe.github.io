@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近因為專案練習，有接觸到需要比較真實的數據資料以方便加入資料庫，於是找到了台北市政府公開資料的網站，在得到資料後，發現有些地方需要把資料轉成為想要的 json 格式，為了方便快速整理一些小資訊，發現了 jsoneditoronline.org 線上整理 json 的網站。 這個網站提供了許多簡易的 json 功能，可以將雜亂的資料做篩選，還有輸出想要的資料格式，在使用了這個網站之後想要將一些使用">
+<meta name="keywords" content="JSON">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jsoneditoronline.org">
+<meta property="og:url" content="https://ctaohe.github.io/2019/11/05/2019-11-5_jsoneditoronline/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="最近因為專案練習，有接觸到需要比較真實的數據資料以方便加入資料庫，於是找到了台北市政府公開資料的網站，在得到資料後，發現有些地方需要把資料轉成為想要的 json 格式，為了方便快速整理一些小資訊，發現了 jsoneditoronline.org 線上整理 json 的網站。 這個網站提供了許多簡易的 json 功能，可以將雜亂的資料做篩選，還有輸出想要的資料格式，在使用了這個網站之後想要將一些使用">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/NH7iQ_jHnj5TNGsb_0dSrlFnmMwfO1SveC9IiMNfCbL9LQ-kWlw2VbJeY15XNzEfPTKQSW9UaAPF7Q7I3cD4aiKipJ3QuWHWrUJlQjZ2jKJgPCiyVmDMv5roI8vNFPZTUBWnTWmnUwkNAXM2KPmEd794aD2ERyb-BguqTCdoxxRA7WtCqfjBBuK-qHfbUs-nKVKMi-tq-PPMPF6KrYbnoFBYwVXUReo5u-KwMnrBgwfULC_U_nWaFMr6BIwTEEIosYXzBaF3bUzhubZAT_HuCu6R_0O2ee7eXaZ_DA3V0hRkzKGYP5jo-5EFn7SQ0qyswzSkiKx6z9cWasWGHgTiMQwCbJQpwN_pZlP0EgXaGVc3XItYAJRKdfHiHGIfhwX0ZGPg3Bjf0pls6E7svflh8mKyE5LOCp7KLGWSy_E0HaiQiBsdLcb-MOb2AQw7r2S_GAbmKLWfJvVl2vck_5AGC-PLHxZsZS20UriybwAatiVaptujtGEguCYJeKr4JlwpGeJYySV0zfLpwE5SfFQO4bbpTV7zMFB2880pHExbxJrb0W7o-yq--TU6mz58sNxL7jFMe-qklWwZvUUzzk6QSULA7gsozYisWhWx1rgDB7Adcq5RXWOIQjMZ27x7K-8Pix3RBusA2dF9p_x9kD98Dk0hHxUZ4QSDoDLNUSPzQiEKlGERs6d9J57a7eaVRPIhzmi0yhWssbfZeUhnR47S2-ihHQ3Rt7D-p9JYKnw5tZf8Hrg=w1068-h264-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/GAfbjLGt6WhqZA4NzuDFDyLQ4x4eN8Yj5JjNF5N7ye96aFYR8BgB1ybfnuKDox5X9bhUXBpjaWEWxXccQYhyYqAK0Ru5xwyfQwjmC6zUR2aLpf7CEQ0c7mj9txHYLsoPM7ZYonI-yovdC4A75Eit0jP5w2xqKyg6ydnGxizDQGEo8lniEgGtxatQz2aVw34__xbXEta05UTkr-qFR_jFqNkpPH0vI5QquF0fJWeSSl8ZyNPsdaXGy27wzuBab67SApkm0iqnqDFQ0f1L0Zd4aXV0dCEkTo7ZFM0IYhfR-Sed0-ysHbv5UBgmYVVTb1CecHBXIJosD9yJzcs3fDXMREN3YG86qe8yAOG22Y531EKKQB1kY7w8XMHkmuzuQ1G14JXdJ2sJFdACsX4-mhOm2TNY8GZZEnrHXC1laKNEX8zrMPEjaNYCut8wHg5hgdVCSGoN10smOUnNNsFU8VOgJ8dy0lKEHJTcG2kJaJqP75TIoXac9Oyv87ooZr06EHoTzX7H_h51rkWJdzSsfcVpC61l7fU5UdTtvCCIkvoJiNAj8QqlZJXvrjMpMo9L4IOfedIDw_SdgfhdlKHGZYYLw5hAtKhTEE8Yi2LzBmYbIEPGrE6KqcgHPQSj6-Prza8HL3psFAGlWYcveg6LmiP9grzpVub5csmYwhskh4by8a33lV5XU1nfy-7ZL-hLF56t_51TVjqZLJuZBSgqybP8m3mWulsIbyJ9gRNgwcKkoYmq11g=w636-h613-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/Di3HI5kprcji0o4YfMQhDNsNiWedxcgppWJtT0oum7-kjRS-xffgZtPpCX0pPR6Qr4IFLnpyLdjier1EWetR4nKWKk8l9WwypCJ-NJ_H6fi2h2BDkbKO8MsyTXVgVjnxYZzIE3arvMNSPpxiNOwPgGYw47iT6vhDeHUzSgFmfm5iiU2pCyJDP4w-vqUENw9VPOaAqJ1QoTcj04GLBFQyAhLqaUJH2sbLIemUlv91TsuNgecqHaGgLm736NC72hSm4eapCzKmHrnd-oM7HAt7Ik_iPrz4ST-X7AGrXEkmgD05QPTD1kcNxLDuOrIO41Hfds7BNW9zyI2aQyl4hkrLRBgYwud7gagMxqqfIFUj7BfS-avfcxFh40lCCPXmKcRfgO2VCwpFsNZXfdPwVol4ovjIW9OuhKppnTU-LqZl1dZUEib5DyL5DAoi5HjGPhlKqVYMhPkx3SFnnHCP4xhVuacRduOqG4EDAAVPdLm_hpkK_H4jY5w8nsiSEjzsgUchZ4eEUGWPaJjsq9r8UGzWZMCp1qSSE0dbn-keM53tRfIrNYEOxOxWBgp6MiqXOSM3Zzy8QrKMZdblIlnAMKENdqO8CKp-WQA1i9u_84junxbfwJayaytH6S--B51Md7jS5lBQhmfTb0rOoJwrjUkR1iak9JGuwJ2YivHtdVMsxh-N3wxFWIL213pWV1snBtKnWch1Qi4tIlMqj-a_54jnues1PktI9A-5QIK-3ngd_zMovFE=w659-h597-no">
+<meta property="og:updated_time" content="2019-11-14T09:30:22.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsoneditoronline.org">
+<meta name="twitter:description" content="最近因為專案練習，有接觸到需要比較真實的數據資料以方便加入資料庫，於是找到了台北市政府公開資料的網站，在得到資料後，發現有些地方需要把資料轉成為想要的 json 格式，為了方便快速整理一些小資訊，發現了 jsoneditoronline.org 線上整理 json 的網站。 這個網站提供了許多簡易的 json 功能，可以將雜亂的資料做篩選，還有輸出想要的資料格式，在使用了這個網站之後想要將一些使用">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/NH7iQ_jHnj5TNGsb_0dSrlFnmMwfO1SveC9IiMNfCbL9LQ-kWlw2VbJeY15XNzEfPTKQSW9UaAPF7Q7I3cD4aiKipJ3QuWHWrUJlQjZ2jKJgPCiyVmDMv5roI8vNFPZTUBWnTWmnUwkNAXM2KPmEd794aD2ERyb-BguqTCdoxxRA7WtCqfjBBuK-qHfbUs-nKVKMi-tq-PPMPF6KrYbnoFBYwVXUReo5u-KwMnrBgwfULC_U_nWaFMr6BIwTEEIosYXzBaF3bUzhubZAT_HuCu6R_0O2ee7eXaZ_DA3V0hRkzKGYP5jo-5EFn7SQ0qyswzSkiKx6z9cWasWGHgTiMQwCbJQpwN_pZlP0EgXaGVc3XItYAJRKdfHiHGIfhwX0ZGPg3Bjf0pls6E7svflh8mKyE5LOCp7KLGWSy_E0HaiQiBsdLcb-MOb2AQw7r2S_GAbmKLWfJvVl2vck_5AGC-PLHxZsZS20UriybwAatiVaptujtGEguCYJeKr4JlwpGeJYySV0zfLpwE5SfFQO4bbpTV7zMFB2880pHExbxJrb0W7o-yq--TU6mz58sNxL7jFMe-qklWwZvUUzzk6QSULA7gsozYisWhWx1rgDB7Adcq5RXWOIQjMZ27x7K-8Pix3RBusA2dF9p_x9kD98Dk0hHxUZ4QSDoDLNUSPzQiEKlGERs6d9J57a7eaVRPIhzmi0yhWssbfZeUhnR47S2-ihHQ3Rt7D-p9JYKnw5tZf8Hrg=w1068-h264-no">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/11/05/2019-11-5_jsoneditoronline/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>jsoneditoronline.org | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/11/05/2019-11-5_jsoneditoronline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">jsoneditoronline.org
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-11-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-05T00:00:00+08:00">2019-11-05</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近因為專案練習，有接觸到需要比較真實的數據資料以方便加入資料庫，於是找到了台北市政府公開資料的網站，在得到資料後，發現有些地方需要把資料轉成為想要的 json 格式，為了方便快速整理一些小資訊，發現了 jsoneditoronline.org 線上整理 json 的網站。</p>
+<p>這個網站提供了許多簡易的 json 功能，可以將雜亂的資料做篩選，還有輸出想要的資料格式，在使用了這個網站之後想要將一些使用的經驗整理下來，方便日後快速回憶。</p>
+<h3 id="簡單理解-json-格式"><a href="#簡單理解-json-格式" class="headerlink" title="簡單理解 json 格式"></a>簡單理解 json 格式</h3><p>JSON 全名 Javascript Object Notation。</p>
+<p>資料型態:</p>
+<ul>
+<li>數值: 十進位，可以為負數，不可有前導 0。</li>
+<li>字串: 以<code>&quot;&quot;</code>括起來的 Unicode。</li>
+<li>布林值: true or false。</li>
+<li>array: 以<code>[]</code>刮起來。</li>
+<li>object: 以<code>{}</code>刮起來的無序 Key-value pairs。</li>
+<li>null: 值為 null。</li>
+</ul>
+<p>應用領域:</p>
+<ul>
+<li>web 開發: javascript、Node.js、Java 使用居多。</li>
+<li>NoSQL 資料庫: MongoDB、CouchDB、RavenDB。</li>
+</ul>
+<p>格式通常會用 obj 或者 array 包覆</p>
+<p>object 可以將想要的資訊都組合在同一個 <code>{}</code>視為一筆資料。<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"firstName"</span>: <span class="string">"Tao"</span>,</span><br><span class="line">  <span class="attr">"lastName"</span>: <span class="string">"Chen"</span>,</span><br><span class="line">  <span class="attr">"favorite"</span>: [<span class="string">"new tech"</span>, <span class="string">"books"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用 array 可以更方便的儲存多個類似的資料。<br><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"firstName"</span>: <span class="string">"Tao"</span>,</span><br><span class="line">    <span class="attr">"lastName"</span>: <span class="string">"Chen"</span>,</span><br><span class="line">    <span class="attr">"favorite"</span>: [<span class="string">"new tech"</span>, <span class="string">"books"</span>]</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<h3 id="網站使用"><a href="#網站使用" class="headerlink" title="網站使用"></a>網站使用</h3><p>網站的使用非常的簡單</p>
+<p><img src="https://lh3.googleusercontent.com/NH7iQ_jHnj5TNGsb_0dSrlFnmMwfO1SveC9IiMNfCbL9LQ-kWlw2VbJeY15XNzEfPTKQSW9UaAPF7Q7I3cD4aiKipJ3QuWHWrUJlQjZ2jKJgPCiyVmDMv5roI8vNFPZTUBWnTWmnUwkNAXM2KPmEd794aD2ERyb-BguqTCdoxxRA7WtCqfjBBuK-qHfbUs-nKVKMi-tq-PPMPF6KrYbnoFBYwVXUReo5u-KwMnrBgwfULC_U_nWaFMr6BIwTEEIosYXzBaF3bUzhubZAT_HuCu6R_0O2ee7eXaZ_DA3V0hRkzKGYP5jo-5EFn7SQ0qyswzSkiKx6z9cWasWGHgTiMQwCbJQpwN_pZlP0EgXaGVc3XItYAJRKdfHiHGIfhwX0ZGPg3Bjf0pls6E7svflh8mKyE5LOCp7KLGWSy_E0HaiQiBsdLcb-MOb2AQw7r2S_GAbmKLWfJvVl2vck_5AGC-PLHxZsZS20UriybwAatiVaptujtGEguCYJeKr4JlwpGeJYySV0zfLpwE5SfFQO4bbpTV7zMFB2880pHExbxJrb0W7o-yq--TU6mz58sNxL7jFMe-qklWwZvUUzzk6QSULA7gsozYisWhWx1rgDB7Adcq5RXWOIQjMZ27x7K-8Pix3RBusA2dF9p_x9kD98Dk0hHxUZ4QSDoDLNUSPzQiEKlGERs6d9J57a7eaVRPIhzmi0yhWssbfZeUhnR47S2-ihHQ3Rt7D-p9JYKnw5tZf8Hrg=w1068-h264-no" alt="jsoneditoronline"></p>
+<p>左邊放置你想要 format 的資料，之後點選中間 <code>&gt;</code> 符號，便會輸出到右邊，在右邊資料中可以看到井然有序，完整架構的資料呈現出來，可以很方便的就了解有哪些資料可以使用。</p>
+<p>接下來有趣的地方來了。</p>
+<p>在資料框的上方有許多小工具可以點選，而漏斗形狀的工具圖案，便是方柱我們最多的功能，點選下去之後會跳出小方框。</p>
+<p><img src="https://lh3.googleusercontent.com/GAfbjLGt6WhqZA4NzuDFDyLQ4x4eN8Yj5JjNF5N7ye96aFYR8BgB1ybfnuKDox5X9bhUXBpjaWEWxXccQYhyYqAK0Ru5xwyfQwjmC6zUR2aLpf7CEQ0c7mj9txHYLsoPM7ZYonI-yovdC4A75Eit0jP5w2xqKyg6ydnGxizDQGEo8lniEgGtxatQz2aVw34__xbXEta05UTkr-qFR_jFqNkpPH0vI5QquF0fJWeSSl8ZyNPsdaXGy27wzuBab67SApkm0iqnqDFQ0f1L0Zd4aXV0dCEkTo7ZFM0IYhfR-Sed0-ysHbv5UBgmYVVTb1CecHBXIJosD9yJzcs3fDXMREN3YG86qe8yAOG22Y531EKKQB1kY7w8XMHkmuzuQ1G14JXdJ2sJFdACsX4-mhOm2TNY8GZZEnrHXC1laKNEX8zrMPEjaNYCut8wHg5hgdVCSGoN10smOUnNNsFU8VOgJ8dy0lKEHJTcG2kJaJqP75TIoXac9Oyv87ooZr06EHoTzX7H_h51rkWJdzSsfcVpC61l7fU5UdTtvCCIkvoJiNAj8QqlZJXvrjMpMo9L4IOfedIDw_SdgfhdlKHGZYYLw5hAtKhTEE8Yi2LzBmYbIEPGrE6KqcgHPQSj6-Prza8HL3psFAGlWYcveg6LmiP9grzpVub5csmYwhskh4by8a33lV5XU1nfy-7ZL-hLF56t_51TVjqZLJuZBSgqybP8m3mWulsIbyJ9gRNgwcKkoYmq11g=w636-h613-no" alt="transform"></p>
+<p>詳細的教學可以經由 <a href="http://jmespath.org/" target="_blank" rel="noopener">http://jmespath.org/</a> 或者 <a href="http://jmespath.org/tutorial.html" target="_blank" rel="noopener">http://jmespath.org/tutorial.html</a> 學習了解。</p>
+<p>這邊列出我最常使用的功能，假使資料格式如下:</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">"data"</span>:[</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"Tao"</span>,</span><br><span class="line">      <span class="attr">"tel"</span>: <span class="string">"08-7654321"</span>,</span><br><span class="line">      <span class="attr">"favorite"</span>: <span class="string">"books"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>當我再查詢的時候，我需要變更標籤不同的名稱、以及需要的標籤時，可以在 query 中如下方的語法，這樣大大的方便標籤的修改。</p>
+<p><code>data[].{firstName: name}</code><br><img src="https://lh3.googleusercontent.com/Di3HI5kprcji0o4YfMQhDNsNiWedxcgppWJtT0oum7-kjRS-xffgZtPpCX0pPR6Qr4IFLnpyLdjier1EWetR4nKWKk8l9WwypCJ-NJ_H6fi2h2BDkbKO8MsyTXVgVjnxYZzIE3arvMNSPpxiNOwPgGYw47iT6vhDeHUzSgFmfm5iiU2pCyJDP4w-vqUENw9VPOaAqJ1QoTcj04GLBFQyAhLqaUJH2sbLIemUlv91TsuNgecqHaGgLm736NC72hSm4eapCzKmHrnd-oM7HAt7Ik_iPrz4ST-X7AGrXEkmgD05QPTD1kcNxLDuOrIO41Hfds7BNW9zyI2aQyl4hkrLRBgYwud7gagMxqqfIFUj7BfS-avfcxFh40lCCPXmKcRfgO2VCwpFsNZXfdPwVol4ovjIW9OuhKppnTU-LqZl1dZUEib5DyL5DAoi5HjGPhlKqVYMhPkx3SFnnHCP4xhVuacRduOqG4EDAAVPdLm_hpkK_H4jY5w8nsiSEjzsgUchZ4eEUGWPaJjsq9r8UGzWZMCp1qSSE0dbn-keM53tRfIrNYEOxOxWBgp6MiqXOSM3Zzy8QrKMZdblIlnAMKENdqO8CKp-WQA1i9u_84junxbfwJayaytH6S--B51Md7jS5lBQhmfTb0rOoJwrjUkR1iak9JGuwJ2YivHtdVMsxh-N3wxFWIL213pWV1snBtKnWch1Qi4tIlMqj-a_54jnues1PktI9A-5QIK-3ngd_zMovFE=w659-h597-no" alt="query後"></p>
+<p>而如果是字串數字轉成真正的數字同樣在 <code>:</code> 後的標籤加上 to_number(‘標籤’)，就可以快速的將字串數字轉成真正的數字。</p>
+<p>而在需要塞選的時候，也是利用類似的字串。 <code>[?name == &#39;Tao&#39;]</code> 使用 <code>?</code> 和 <code>==</code> 可以完成需要的篩選。</p>
+<p>使用上面的三種語法就可以完成 80% 的工作，在整理資料上方便了不少。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSON/" rel="tag"># JSON</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/19/2019-10-19_newebpay/" rel="next" title="藍新金流串接實作">
+                <i class="fa fa-chevron-left"></i> 藍新金流串接實作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/06/2019-11-6_keep_heroku_alive/" rel="prev" title="Keep free heroku alive">
+                Keep free heroku alive <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單理解-json-格式"><span class="nav-number">1.</span> <span class="nav-text">簡單理解 json 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網站使用"><span class="nav-number">2.</span> <span class="nav-text">網站使用</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

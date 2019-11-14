@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用 Passport 認證策略中的，facebook 登入認證，透過 OAuth 2.0 機制，取得使用者同意後，使我們可以快速登入。 OAuth處理流程中有四個角色  資源擁有者: 帳號資料使用者。(User) 授權伺服器: 取得使用者許可後簽發 access token 的第三方網站(facebook&amp;#125; 資源伺服器: 保管資源擁有者資料的伺服器(facebook) 客戶端: 使用者">
+<meta name="keywords" content="OAuth,partials">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth">
+<meta property="og:url" content="https://ctaohe.github.io/2019/06/27/2019-6-27_認識OAuth/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="使用 Passport 認證策略中的，facebook 登入認證，透過 OAuth 2.0 機制，取得使用者同意後，使我們可以快速登入。 OAuth處理流程中有四個角色  資源擁有者: 帳號資料使用者。(User) 授權伺服器: 取得使用者許可後簽發 access token 的第三方網站(facebook&amp;#125; 資源伺服器: 保管資源擁有者資料的伺服器(facebook) 客戶端: 使用者">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-07-02T16:28:54.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OAuth">
+<meta name="twitter:description" content="使用 Passport 認證策略中的，facebook 登入認證，透過 OAuth 2.0 機制，取得使用者同意後，使我們可以快速登入。 OAuth處理流程中有四個角色  資源擁有者: 帳號資料使用者。(User) 授權伺服器: 取得使用者許可後簽發 access token 的第三方網站(facebook&amp;#125; 資源伺服器: 保管資源擁有者資料的伺服器(facebook) 客戶端: 使用者">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/06/27/2019-6-27_認識OAuth/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>OAuth | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/27/2019-6-27_認識OAuth/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OAuth
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-27 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-27T00:00:00+08:00">2019-06-27</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用 Passport 認證策略中的，facebook 登入認證，透過 OAuth 2.0 機制，取得使用者同意後，使我們可以快速登入。</p>
+<h2 id="OAuth"><a href="#OAuth" class="headerlink" title="OAuth"></a>OAuth</h2><p>處理流程中有四個角色</p>
+<ul>
+<li>資源擁有者: 帳號資料使用者。(User)</li>
+<li>授權伺服器: 取得使用者許可後簽發 access token 的第三方網站(facebook&#125;</li>
+<li>資源伺服器: 保管資源擁有者資料的伺服器(facebook)</li>
+<li>客戶端: 使用者正在使用的第三方應用程式</li>
+</ul>
+<p>英文分別為: <code>Resource owner</code>、<code>Authorization server</code>、<code>Resource Server</code>、<code>Client</code></p>
+<h2 id="實作步驟"><a href="#實作步驟" class="headerlink" title="實作步驟"></a>實作步驟</h2><ol>
+<li>facebook for developers 上設定應用程式</li>
+<li>安裝 Passport-Facebook</li>
+<li>新增 auths 路由</li>
+<li>app.js 載入路由</li>
+<li>FacebookStrategy</li>
+</ol>
+<p>進入facebook for developers設置應用程式，選擇<code>整合 facebook 登入</code>，取得應用程式編號、應用程式密鑰。</p>
+<h3 id="安裝-Passport-Facebook"><a href="#安裝-Passport-Facebook" class="headerlink" title="安裝 Passport-Facebook"></a>安裝 Passport-Facebook</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install passport-facebook</span><br></pre></td></tr></table></figure>
+<h3 id="新增路由-auths-js-載入-app-js"><a href="#新增路由-auths-js-載入-app-js" class="headerlink" title="新增路由 auths.js 載入 app.js"></a>新增路由 auths.js 載入 app.js</h3><p>參考 <a href="https://github.com/jaredhanson/passport-facebook#authenticate-requests" target="_blank" rel="noopener">Passport</a></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.get(<span class="string">'/auth/facebook'</span>,</span><br><span class="line">  passport.authenticate(<span class="string">'facebook'</span>));</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">'/auth/facebook/callback'</span>,</span><br><span class="line">  passport.authenticate(<span class="string">'facebook'</span>, &#123; <span class="attr">failureRedirect</span>: <span class="string">'/login'</span> &#125;),</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// Successful authentication, redirect home.</span></span><br><span class="line">    res.redirect(<span class="string">'/'</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<p>新增路由 routes/auths.js<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> router = express.Router()</span><br><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>)</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/facebook'</span>,</span><br><span class="line">  passport.authenticate(<span class="string">'facebook'</span>, &#123;<span class="attr">scope</span>: [<span class="string">'email'</span>, <span class="string">'public_profile'</span>]&#125;)</span><br><span class="line">)</span><br><span class="line">router.get(<span class="string">'/facebook/callback'</span>,</span><br><span class="line">  passport.authenticate(<span class="string">'facebook'</span>, &#123;</span><br><span class="line">    successRedirect: <span class="string">'/'</span>,</span><br><span class="line">    failureRedirect: <span class="string">'/users/login'</span>,</span><br><span class="line">  &#125;)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">module</span>.exports = router</span><br></pre></td></tr></table></figure></p>
+<p>app.js 載入 routes/auths.js<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.use(<span class="string">'/users'</span>, <span class="built_in">require</span>(<span class="string">'./routes/user'</span>))     </span><br><span class="line">app.use(<span class="string">'/auth'</span>, <span class="built_in">require</span>(<span class="string">'./routes/auths'</span>)) <span class="comment">//加入</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="FacebookStrategy"><a href="#FacebookStrategy" class="headerlink" title="FacebookStrategy"></a>FacebookStrategy</h3><p>在 passport middleware 加入 facebookStrategy</p>
+<p><a href="https://github.com/jaredhanson/passport-facebook#configure-strategy" target="_blank" rel="noopener">官方文件</a></p>
+<p>審核創建新使用者<br>config/passport.js<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> LocalStrategy = <span class="built_in">require</span>(<span class="string">'passport-local'</span>).Strategy <span class="comment">// passport-local</span></span><br><span class="line"><span class="keyword">const</span> FacebookStrategy = <span class="built_in">require</span>(<span class="string">'passport-facebook'</span>).Strategy <span class="comment">//passport-facebook</span></span><br><span class="line"><span class="keyword">const</span> bcrypt = <span class="built_in">require</span>(<span class="string">'bcryptjs'</span>)</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">'../models./user'</span>) </span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">passport</span> =&gt;</span> &#123;</span><br><span class="line">  passport.use(</span><br><span class="line">    <span class="keyword">new</span> LocalStrategy(&#123;<span class="attr">usernameField</span>: <span class="string">'email'</span>&#125;, (email, password, done)=&gt; &#123;</span><br><span class="line">      <span class="comment">//...</span></span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line">  passport.use(<span class="keyword">new</span> FacebookStrategy(&#123;</span><br><span class="line">    clientID: process.env.FACEBOOK_ID,</span><br><span class="line">    clientSecret: process.env.FACEBOOK_SECRET,</span><br><span class="line">    callbackURL: process.env.FACEBOOK_CALLBACK,</span><br><span class="line">    profileFields: [<span class="string">'email'</span>, <span class="string">'displayName'</span>]</span><br><span class="line">  &#125;,(accessToken, refreshToken, profile, done) =&gt; &#123;</span><br><span class="line">      User.findOne(&#123;</span><br><span class="line">        email: profile._json.email</span><br><span class="line">      &#125;).then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">          <span class="keyword">const</span> randomPassword = <span class="built_in">Math</span>.random(<span class="number">36</span>).slice(<span class="number">-8</span>)</span><br><span class="line">          bcrypt.genSalt(<span class="number">10</span>, (err, salt) =&gt;</span><br><span class="line">            bcrypt.hash(randomPassword, salt, (err, hash) =&gt;&#123;</span><br><span class="line">              <span class="keyword">const</span> newUser = User(&#123;</span><br><span class="line">                name: profile._json.name,</span><br><span class="line">                email: profile._json.email,</span><br><span class="line">                password: hash</span><br><span class="line">              &#125;)</span><br><span class="line">              newUser.save().then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> done(<span class="literal">null</span>, user)</span><br><span class="line">              &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(err)</span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">          )</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> done(<span class="literal">null</span>, user)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="隱藏敏感資訊"><a href="#隱藏敏感資訊" class="headerlink" title="隱藏敏感資訊"></a>隱藏敏感資訊</h2><p>將應用程式的編碼以及程式密鑰等敏感資訊，隱藏起來</p>
+<p>使用 <code>環境變數(environment variable)</code> 管理資訊，藉由讀取環境變數去知道作業系統的資訊。</p>
+<h3 id="實作步驟-1"><a href="#實作步驟-1" class="headerlink" title="實作步驟"></a>實作步驟</h3><ol>
+<li>安裝 dotenv</li>
+<li>隱藏資訊設定為變數，寫進env</li>
+<li>config/passport.js 用相同變數取代敏感資訊。</li>
+<li>在 app.js 增加應用程式執行模式邏輯</li>
+<li>.env加入 .gitignore</li>
+<li>檢查登入</li>
+</ol>
+<h4 id="安裝-dotenv"><a href="#安裝-dotenv" class="headerlink" title="安裝 dotenv"></a>安裝 dotenv</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install dotenv</span><br></pre></td></tr></table></figure>
+<h4 id="修改-config-passport-js-及-新增-env"><a href="#修改-config-passport-js-及-新增-env" class="headerlink" title="修改 config/passport.js 及 新增.env"></a>修改 config/passport.js 及 新增.env</h4><p>config/passport.js 已在上方做修改<br>將資訊放入.env，xxxxxxxx 找自己應用程式編號及密鑰<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// .env</span><br><span class="line">FACEBOOK_ID=xxxxxxxx</span><br><span class="line">FACEBOOK_SECRET=xxxxxxxx</span><br><span class="line">FACEBOOK_CALLBACK=http://localhost:3000/auth/facebook/callback</span><br></pre></td></tr></table></figure></p>
+<h4 id="判別環境"><a href="#判別環境" class="headerlink" title="判別環境"></a>判別環境</h4><p>如果 程式不是在線上正式執行就透過 dotnev 讀取檔案</p>
+<p>app.js<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (precess.env.NODE_ENV !== <span class="string">'porduction'</span>)&#123; <span class="comment">// 如果不是產品模式</span></span><br><span class="line">  <span class="built_in">require</span>(<span class="string">'dotenv'</span>).config() <span class="comment">// dotenv 執行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最後將 .env 加入 .gitignore</p>
+<h2 id="新增-FB-按鈕"><a href="#新增-FB-按鈕" class="headerlink" title="新增 FB 按鈕"></a>新增 FB 按鈕</h2><p>修改 login 樣板，加入連結。<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/auth/facebook"</span>&gt;</span>FB login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="partials-樣板"><a href="#partials-樣板" class="headerlink" title="partials 樣板"></a>partials 樣板</h2><p>使用 connect-flash，使用 res 的 res.locals 將資訊傳到 view</p>
+<p>在 app.js 載入<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> flash =<span class="built_in">require</span>(<span class="string">'connect-flash'</span>)</span><br><span class="line"></span><br><span class="line">app.use(flash())</span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  res.locals.user = req.user</span><br><span class="line">  res.locals.isAuthenticated = req.isAuthenticated()</span><br><span class="line"></span><br><span class="line">  res.locals.success_msg = req.flash(<span class="string">'success_msg'</span>)</span><br><span class="line">  res.locals.warning_msg = req.flash(<span class="string">'warning_msg'</span>)</span><br><span class="line">  next()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>使用handlebars &#123;&#123;&gt; myPartial &#125;&#125; 將顯示加入。</p>
+<p>使用者權限訊息加入 auth middleware 中<br>config/auth.js</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  authenticated: <span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (req.isAuthenticated()) &#123;</span><br><span class="line">      <span class="keyword">return</span> next</span><br><span class="line">    &#125;</span><br><span class="line">    req.flash(<span class="string">'warning_msg'</span>, <span class="string">'請先登入'</span>)</span><br><span class="line">    res.redirect(<span class="string">'/users/login'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>user.js<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 檢查註冊</span></span><br><span class="line">router.post(<span class="string">'register'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;name, email, password, password2&#125; = req.body</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> errors = []</span><br><span class="line">  <span class="keyword">if</span> (!name || !email || !password || !password2) &#123;</span><br><span class="line">    errors.push(&#123; <span class="attr">message</span>: <span class="string">'所有欄位都是必填'</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (password !== password2) &#123;</span><br><span class="line">    errors.push(&#123; <span class="attr">message</span>: <span class="string">'密碼輸入錯誤'</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (errors.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    res.render(<span class="string">'register'</span>, &#123;</span><br><span class="line">      errors,</span><br><span class="line">      name,</span><br><span class="line">      email,</span><br><span class="line">      password,</span><br><span class="line">      password2</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    User.findOne(&#123; <span class="attr">email</span>: email &#125;).then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (user) &#123;</span><br><span class="line">        <span class="comment">// 加入訊息提示</span></span><br><span class="line">        errors.push(&#123; <span class="attr">message</span>: <span class="string">'這個 Email 已經註冊過了'</span> &#125;)</span><br><span class="line">        res.render(<span class="string">'register'</span>, &#123;</span><br><span class="line">          errors,</span><br><span class="line">          name,</span><br><span class="line">          email,</span><br><span class="line">          password,</span><br><span class="line">          password2</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> newUser = <span class="keyword">new</span> User(&#123;</span><br><span class="line">          name,</span><br><span class="line">          email,</span><br><span class="line">          password</span><br><span class="line">        &#125;)</span><br><span class="line">        bcrypt.genSalt(<span class="number">10</span>, (err, salt) =&gt;</span><br><span class="line">          bcrypt.hash(newUser.password, salt, (err, hash) =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) <span class="keyword">throw</span> err</span><br><span class="line">            newUser.password = hash</span><br><span class="line"></span><br><span class="line">            newUser</span><br><span class="line">              .save()</span><br><span class="line">              .then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">                res.redirect(<span class="string">'/'</span>)</span><br><span class="line">              &#125;)</span><br><span class="line">              .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.log(err))</span><br><span class="line">          &#125;)</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OAuth/" rel="tag"># OAuth</a>
+          
+            <a href="/tags/partials/" rel="tag"># partials</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/2019-6-27_認證登入/" rel="next" title="認證功能-登入">
+                <i class="fa fa-chevron-left"></i> 認證功能-登入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/30/2019-6-30_註冊登入登出/" rel="prev" title="Session 、 Cookie、 OAuth & Express middleware">
+                Session 、 Cookie、 OAuth & Express middleware <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth"><span class="nav-number">1.</span> <span class="nav-text">OAuth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實作步驟"><span class="nav-number">2.</span> <span class="nav-text">實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Passport-Facebook"><span class="nav-number">2.1.</span> <span class="nav-text">安裝 Passport-Facebook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增路由-auths-js-載入-app-js"><span class="nav-number">2.2.</span> <span class="nav-text">新增路由 auths.js 載入 app.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FacebookStrategy"><span class="nav-number">2.3.</span> <span class="nav-text">FacebookStrategy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隱藏敏感資訊"><span class="nav-number">3.</span> <span class="nav-text">隱藏敏感資訊</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#實作步驟-1"><span class="nav-number">3.1.</span> <span class="nav-text">實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-dotenv"><span class="nav-number">3.1.1.</span> <span class="nav-text">安裝 dotenv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-config-passport-js-及-新增-env"><span class="nav-number">3.1.2.</span> <span class="nav-text">修改 config/passport.js 及 新增.env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判別環境"><span class="nav-number">3.1.3.</span> <span class="nav-text">判別環境</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新增-FB-按鈕"><span class="nav-number">4.</span> <span class="nav-text">新增 FB 按鈕</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partials-樣板"><span class="nav-number">5.</span> <span class="nav-text">partials 樣板</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

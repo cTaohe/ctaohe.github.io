@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前述重新安裝 Manjaro 做為實體安裝流程練習，這次使用雙系統的方式安裝，使用UEFI的方式去安裝。安裝前需要使用開機片製作軟件，我使用過 rufus 以及 UNetbootin 製作 Linux 開機片，在一些複雜因素的情況下多次發生了 Grub ‘file filters not found’，這個問題，而且 USB 並不容易讀取。 最後使用了在論壇看到了這個回復，其中提到 Etcher">
+<meta name="keywords" content="Windows,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安裝 Manjaro + Windows 10">
+<meta property="og:url" content="https://ctaohe.github.io/2019/05/26/2019-5-26_安裝manjaro+windows10/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前述重新安裝 Manjaro 做為實體安裝流程練習，這次使用雙系統的方式安裝，使用UEFI的方式去安裝。安裝前需要使用開機片製作軟件，我使用過 rufus 以及 UNetbootin 製作 Linux 開機片，在一些複雜因素的情況下多次發生了 Grub ‘file filters not found’，這個問題，而且 USB 並不容易讀取。 最後使用了在論壇看到了這個回復，其中提到 Etcher">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-05-31T16:36:22.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安裝 Manjaro + Windows 10">
+<meta name="twitter:description" content="前述重新安裝 Manjaro 做為實體安裝流程練習，這次使用雙系統的方式安裝，使用UEFI的方式去安裝。安裝前需要使用開機片製作軟件，我使用過 rufus 以及 UNetbootin 製作 Linux 開機片，在一些複雜因素的情況下多次發生了 Grub ‘file filters not found’，這個問題，而且 USB 並不容易讀取。 最後使用了在論壇看到了這個回復，其中提到 Etcher">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/05/26/2019-5-26_安裝manjaro+windows10/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>安裝 Manjaro + Windows 10 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/05/26/2019-5-26_安裝manjaro+windows10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安裝 Manjaro + Windows 10
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-05-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-26T00:00:00+08:00">2019-05-26</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OS/" itemprop="url" rel="index"><span itemprop="name">OS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前述"><a href="#前述" class="headerlink" title="前述"></a>前述</h2><p>重新安裝 Manjaro 做為實體安裝流程練習，這次使用雙系統的方式安裝，使用UEFI的方式去安裝。安裝前需要使用開機片製作軟件，我使用過 rufus 以及 UNetbootin 製作 Linux 開機片，在一些複雜因素的情況下多次發生了 <code>Grub ‘file filters not found’</code>，這個問題，而且 USB 並不容易讀取。</p>
+<p>最後使用了在<a href="https://forum.manjaro.org/t/grub-file-filters-not-found/80003" target="_blank" rel="noopener">論壇</a>看到了這個回復，其中提到 <a href="https://www.balena.io/etcher/" target="_blank" rel="noopener">Etcher</a> 這個軟件，採用的是將 iso 檔案拖曳至程式區域之後再選擇 USB 就可以製作開機片，非常很簡單的就解決了我的問題，然後就開始安裝了雙系統。</p>
+<p>在安裝前要注意到，在 BIOS 中所設定的是 UTFI/GPT 模式還是傳統的 MRT，在網路文章中有些提議用 MRT 安裝會比較方便，但身為初學者的我，在多次嘗試兩種方式後，發現在 UTFI 下安裝會更是容易，只要把磁碟分區設定好，就已經成功了一半，所以我使用的是前者的方式做安裝。</p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>綜合上面遇到的問題。 我的工具改為</p>
+<ul>
+<li>Etcher 開機片製作軟件</li>
+<li>32GB USB</li>
+</ul>
+<h3 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h3><p>可參考 <a href="https://forum.manjaro.org/t/wiki-windows-10-manjaro-dual-boot-step-by-step/52668" target="_blank" rel="noopener">文章</a></p>
+<h4 id="用-windows-壓縮出空白磁區"><a href="#用-windows-壓縮出空白磁區" class="headerlink" title="用 windows 壓縮出空白磁區"></a>用 windows 壓縮出空白磁區</h4><p>首先我安裝的 Windows 10 在打開磁碟管理的地方對想要安裝的磁碟區做壓縮磁碟區的動作，切出了空白磁區後，直接使用 Linux 開機片做為安裝，可以壓縮磁區是因為這是<code>動態磁區</code>，這是UTFI的好處。</p>
+<h4 id="Linux-磁區分割"><a href="#Linux-磁區分割" class="headerlink" title="Linux 磁區分割"></a>Linux 磁區分割</h4><p>現在最重要的是分割磁區，以下是我的分割:</p>
+<table>
+<thead>
+<tr>
+<th>磁區</th>
+<th>大小</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未配置磁區</td>
+<td>1~8 MB</td>
+<td>做為區分前後系統</td>
+</tr>
+<tr>
+<td>/boot/efi</td>
+<td>最好100-300MB，我是設定 500MB</td>
+<td>做為開機重要磁區</td>
+</tr>
+<tr>
+<td>/根目錄</td>
+<td>1024MB</td>
+<td>像是C:\的重要目錄</td>
+</tr>
+<tr>
+<td>swap</td>
+<td>2048MB</td>
+<td>做為休眠時暫存資料的地方</td>
+</tr>
+<tr>
+<td>/home家目錄</td>
+<td>隨便你喜歡，我是切割了 25G</td>
+<td>通常這個磁區會放很多東西可以最後切割也行</td>
+</tr>
+</tbody>
+</table>
+<p>之後會有 /usr 會有軟體吃掉許多空間、以及 /var 做<code>系統log</code>儲存，但也可以只切割<code>家目錄</code>讓系統自動幫你解決。<br>其中 /boot/efi 比較重要，記得要做好旗標，設定好之後就持續按下一步到安裝完成。</p>
+<p>前面先告訴你，我安裝的大致配置，這裡有篇 <a href="https://access.redhat.com/documentation/zh-tw/red_hat_enterprise_linux/6/html/installation_guide/s2-diskpartrecommend-x86" target="_blank" rel="noopener">Red Hat</a> 的文章，裡面其實是一大篇的安裝指南，它的分割建議寫得非常清楚、易懂，將分割區為: <code>swap</code>、<code>/boot</code>、<code>/</code>、<code>home</code>、<code>/boot/efi</code>。<br>由於<code>swap</code>分割區(分割時最少 256 MB)當作暫存記憶體，隨時間經過會占用越多空間，根據電腦本身的記憶體不同再以增加大小，內文的建議。</p>
+<table>
+<thead>
+<tr>
+<th>系統的記憶體大小</th>
+<th>建議的 swap 空間</th>
+<th>允許休眠的 swap 空間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⩽ 2GB</td>
+<td>記憶體的兩倍大小</td>
+<td>記憶體的三倍大小</td>
+</tr>
+<tr>
+<td>&gt; 2GB – 8GB</td>
+<td>與記憶體大小相等</td>
+<td>記憶體的兩倍大小</td>
+</tr>
+<tr>
+<td>&gt; 8GB – 64GB</td>
+<td>至少 4 GB</td>
+<td>記憶體空間的 1.5 倍</td>
+</tr>
+<tr>
+<td>&gt; 64GB</td>
+<td>至少 4 GB</td>
+<td>不建議使用休眠</td>
+</tr>
+</tbody>
+</table>
+<p>在安裝完之後不用急著重開，首先先繼續留在 live usb 介面，打開終端機，開始引用步驟開始提到的那篇文章，按照步驟，完成檢視，而且這個文章非常棒的是，他從 windows 開始就有步驟逐一說明。<br>輸鍵<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">efibootmgr</span><br></pre></td></tr></table></figure></p>
+<p>這個指令會顯示出你的 <code>boot override</code> 清單，在安裝完後，你的 Manjaro 應該會顯示是第一個，如果是第一個就可以安心的重開了，假設不是的話也不用擔心，文章下面有回覆是能幫你解惑，由於我沒遇到問題，所以我是直接重新開機。</p>
+<h3 id="進入-Manjaro"><a href="#進入-Manjaro" class="headerlink" title="進入 Manjaro"></a>進入 Manjaro</h3><p>Manjaro 在我的電腦上表現得非常的穩定，雖然沒有 Ubuntu 來的容易上手，但也讓我學到很多東西。</p>
+<p>Manjaro 由 archlinux 衍生出來，也是使用滾動升級，所以不會有各種大版本更新。在安裝完之後，進入電腦的第一件事，由於地緣的不同，我們需要更新作業系統，而且要找到良好的 clone 來源。</p>
+<h4 id="更新資源"><a href="#更新資源" class="headerlink" title="更新資源"></a>更新資源</h4><p><code>sudo pacman-mirrors -i -c Taiwan -m rank</code></p>
+<p><code>sudo pacman -Syy</code></p>
+<p>由於台灣只會出現政大的鏡像源，但速度較快也較穩定，而且對在後面中文輸入法安裝也較容易。</p>
+<p>繼續對整個系統更新</p>
+<p><code>sudo pacman -Syu</code></p>
+<h4 id="安裝輸入法"><a href="#安裝輸入法" class="headerlink" title="安裝輸入法"></a>安裝輸入法</h4><p>開始安裝輸入法，我使用的是 <code>fcitx</code>，安裝時使用<code>預設</code>的全部安裝</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pacman -S fcitx-im</span><br><span class="line">sudo pacman -S fcitx-configtool</span><br><span class="line">sudo pacman -S fcitx-chewing</span><br></pre></td></tr></table></figure>
+<p>第三個指令是 <code>fcitx-chewing</code> 注音輸入法，如果不是使用注音的朋友可以找到其他相對應輸入法名稱。</p>
+<p>安裝好之後，需要編輯 <code>~/.xprofile</code>，繼續在終端機輸入，</p>
+<p><code>vi ~/.xprofile</code><br>vi 是 vim 的簡化版，如果想使用 vim 可再另外安裝。<br>進入 .xprofile 後，繼續輸入<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export GTK_IM_MODULE=fcitx</span><br><span class="line">export QT_IM_MODULE=fcitx</span><br><span class="line">export XMODIFIERS=&quot;@im=fcitx&quot;</span><br></pre></td></tr></table></figure></p>
+<p>之後重啟後，就可以看到左上角已經可以做輸入法相關切換的設定，或是進入 fcitx 設定相關輸入法了。</p>
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>文中所提到的 red hat 網站有對硬碟分割做詳細解說，甚至對於其他安裝資訊及硬體設備知識都有一定的講解，我覺得是非常好的資源。</p>
+<p>這篇文章也參考了不少網路安裝分享:</p>
+<p><a href="http://azraelgreen.ml/blog/2019/05/12/manjaro-configure/" target="_blank" rel="noopener">Azrael的运维备忘录</a><br><a href="https://blog.allenchou.cc/arch-linux-tutorial/" target="_blank" rel="noopener">Kerwin Tsai</a><br><a href="https://forum.manjaro.org/t/wiki-windows-10-manjaro-dual-boot-step-by-step/52668/9?u=fhdk" target="_blank" rel="noopener">forum.manjaro</a><br><a href="https://ofeyhong.pixnet.net/blog/post/221137125-%E3%80%90%E6%95%99%E5%AD%B8%E3%80%91%E7%A1%AC%E7%A2%9F%E5%88%86%E5%89%B2-%E5%82%B3%E7%B5%B1mbr--%E8%88%87--uefi-gpt" target="_blank" rel="noopener">歐飛先生</a></p>
+<p>下面不進入 windows OS ，簡單的磁碟格式化工具指令，進入 windows 開機片按下 <code>shift + F10</code> 打開指令列後，輸入:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">diskpart</span><br><span class="line">list disk </span><br><span class="line">sel disk 0</span><br><span class="line">clean</span><br><span class="line">list disk</span><br><span class="line">convert gpt </span><br><span class="line">list disk</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>如此便簡單地把硬碟格式成 gpt， 其中 <code>sel disk</code> 必須看你要格式的硬碟是哪個塊，使用 <code>list disk</code> 可以列出你的硬碟，我選擇的是第0塊的硬碟。</p>
+<p>以上便可以暫時解決，目前安裝的簡單流程。</p>
+<h3 id="19-06-01"><a href="#19-06-01" class="headerlink" title="19/06/01"></a>19/06/01</h3><p>使用了一段時間後覺得 manjaro 的螢幕光線太亮了，於是尋找了指令<br>目前找到兩個方法一個是使用 xrandr 修改，另外一個是安裝 xorg-xbacklight 不過裝了之後用了還是無效，反而是前者方法有用，直接對terminal 下指令 xrandr ，會回傳你電腦目前接口有哪幾個是連結螢幕的<br>我的顯示是使用 DHMI 連結，然後直接搭配<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xrandr --output HDMI-0 --brightness 1.0</span><br></pre></td></tr></table></figure></p>
+<p>很簡單的看得出來 output 是針對連接口， brightness 是設定亮度 <code>1.0</code> 為預設，目前我電腦設定 <code>0.9</code> 暫時獲得緩解。</p>
+<p>參考資料 <a href="https://www.zhihu.com/question/271986533" target="_blank" rel="noopener">知乎</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/25/2019-5-25_delete-boot-override/" rel="next" title="刪除 Bios boot override 中已經不再使用的開機清單">
+                <i class="fa fa-chevron-left"></i> 刪除 Bios boot override 中已經不再使用的開機清單
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/09/2019-6-9_basic_of_web/" rel="prev" title="網路觀念">
+                網路觀念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前述"><span class="nav-number">1.</span> <span class="nav-text">前述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工具"><span class="nav-number">1.1.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步驟"><span class="nav-number">1.2.</span> <span class="nav-text">步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用-windows-壓縮出空白磁區"><span class="nav-number">1.2.1.</span> <span class="nav-text">用 windows 壓縮出空白磁區</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux-磁區分割"><span class="nav-number">1.2.2.</span> <span class="nav-text">Linux 磁區分割</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#進入-Manjaro"><span class="nav-number">1.3.</span> <span class="nav-text">進入 Manjaro</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更新資源"><span class="nav-number">1.3.1.</span> <span class="nav-text">更新資源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝輸入法"><span class="nav-number">1.3.2.</span> <span class="nav-text">安裝輸入法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#補充"><span class="nav-number">2.</span> <span class="nav-text">補充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#19-06-01"><span class="nav-number">2.1.</span> <span class="nav-text">19/06/01</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

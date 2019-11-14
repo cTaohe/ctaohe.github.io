@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言練習 empathize、define、prototype  empathize: 訪談，製作 empathy map define: 製作 persona prototype: 撰寫簡單的 profuct spec，產品雛形的 user stories。  產品設計師在使用同理與定義使用者時，常使用:  使用者訪談(User Interview) 同理心地圖(Empathy Map) 人物誌">
+<meta name="keywords" content="user experience">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alpha Camp 了解產品設計思考與使用者體驗(下)">
+<meta property="og:url" content="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart2/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前言練習 empathize、define、prototype  empathize: 訪談，製作 empathy map define: 製作 persona prototype: 撰寫簡單的 profuct spec，產品雛形的 user stories。  產品設計師在使用同理與定義使用者時，常使用:  使用者訪談(User Interview) 同理心地圖(Empathy Map) 人物誌">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://lh3.googleusercontent.com/uSK8NknDpTC0KxMgLK07ntRV32sSqoEg6dUXjJdvdYRNfIAN4HZF9ME83sSQ-sGDVFlSEldncfK4RpQfwcQPNHg3wc9SehnhvSgSqEVkmPwrfklcaqhE7glDG4qFjYn9jt8d6X4nSk74SzAb0WoZBPJJ0nzdKkUk1tc2CWe-GNt-jikdbwEtH13Q1MFQsfr0KuOYbKHebVBIYqF1g8NEARoCiEaDiRntuyXkHtNW9I09g-S9u6AEPBFoNpG9Bw0lNi-bykl6eRWkfrR7jhEwHfg1TR8fZ_eZGMMtRadPDTXrMUZS3ODTPSKbm5NB1HhCcMfrV5cC6_DJ3HS0m7_YkbUo0YPs1g3q4oq4OtHUugDZj5ZtkuxZ1XqzaJwUbBj8Oy56rzIYWRCMglzEpzKVSILdxZbgE3KjnJTkkJrxRjXTMypgruH-gVgCi109nk9-C7VkbdS2FVBX2B1WuQDICWIAtZVsoUIJJ3uugNVOdizBwK6l7pr7ZrAAxr0YB37O6aYVRQ83t_GPxsOffOMjGCrNuguwXfwGl_3pjYZ714bMRXL16KaKolblQX1lJhCHDjKtB542kOr-Vcmg8I-s1WJ1EskPsMTDmpLT24YgcgKBoh9QrEYfCYkz9iT5jVeKDn0GoKTRusucNg2gfmuykRmIxseZZQ-htw16Sjw4lqruSS93FFc9pMplQbNlsDplHJZCVenuVUAMwCquX18wP_Ey=w584-h438-no">
+<meta property="og:updated_time" content="2019-08-19T16:02:05.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alpha Camp 了解產品設計思考與使用者體驗(下)">
+<meta name="twitter:description" content="前言練習 empathize、define、prototype  empathize: 訪談，製作 empathy map define: 製作 persona prototype: 撰寫簡單的 profuct spec，產品雛形的 user stories。  產品設計師在使用同理與定義使用者時，常使用:  使用者訪談(User Interview) 同理心地圖(Empathy Map) 人物誌">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/uSK8NknDpTC0KxMgLK07ntRV32sSqoEg6dUXjJdvdYRNfIAN4HZF9ME83sSQ-sGDVFlSEldncfK4RpQfwcQPNHg3wc9SehnhvSgSqEVkmPwrfklcaqhE7glDG4qFjYn9jt8d6X4nSk74SzAb0WoZBPJJ0nzdKkUk1tc2CWe-GNt-jikdbwEtH13Q1MFQsfr0KuOYbKHebVBIYqF1g8NEARoCiEaDiRntuyXkHtNW9I09g-S9u6AEPBFoNpG9Bw0lNi-bykl6eRWkfrR7jhEwHfg1TR8fZ_eZGMMtRadPDTXrMUZS3ODTPSKbm5NB1HhCcMfrV5cC6_DJ3HS0m7_YkbUo0YPs1g3q4oq4OtHUugDZj5ZtkuxZ1XqzaJwUbBj8Oy56rzIYWRCMglzEpzKVSILdxZbgE3KjnJTkkJrxRjXTMypgruH-gVgCi109nk9-C7VkbdS2FVBX2B1WuQDICWIAtZVsoUIJJ3uugNVOdizBwK6l7pr7ZrAAxr0YB37O6aYVRQ83t_GPxsOffOMjGCrNuguwXfwGl_3pjYZ714bMRXL16KaKolblQX1lJhCHDjKtB542kOr-Vcmg8I-s1WJ1EskPsMTDmpLT24YgcgKBoh9QrEYfCYkz9iT5jVeKDn0GoKTRusucNg2gfmuykRmIxseZZQ-htw16Sjw4lqruSS93FFc9pMplQbNlsDplHJZCVenuVUAMwCquX18wP_Ey=w584-h438-no">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart2/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Alpha Camp 了解產品設計思考與使用者體驗(下) | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Alpha Camp 了解產品設計思考與使用者體驗(下)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-08-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-19T00:00:00+08:00">2019-08-19</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UX/" itemprop="url" rel="index"><span itemprop="name">UX</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>練習 empathize、define、prototype</p>
+<ul>
+<li>empathize: 訪談，製作 empathy map</li>
+<li>define: 製作 persona</li>
+<li>prototype: 撰寫簡單的 profuct spec，產品雛形的 user stories。</li>
+</ul>
+<p>產品設計師在使用同理與定義使用者時，常使用:</p>
+<ul>
+<li>使用者訪談(User Interview)</li>
+<li>同理心地圖(Empathy Map)</li>
+<li>人物誌(Persona)</li>
+</ul>
+<h2 id="如何定義目標受眾-Target-Audience-TA"><a href="#如何定義目標受眾-Target-Audience-TA" class="headerlink" title="如何定義目標受眾(Target Audience - TA)"></a>如何定義目標受眾(Target Audience - TA)</h2><p><code>當所有人都是你的目標受眾時，你其實沒有目標</code></p>
+<h3 id="目標受眾的屬性-Attribute"><a href="#目標受眾的屬性-Attribute" class="headerlink" title="目標受眾的屬性(Attribute)"></a>目標受眾的屬性(Attribute)</h3><p>先思考我們是如何形容身邊的一個朋友，可以從 <code>屬性(attribute)</code>開始。</p>
+<p>四個維度</p>
+<ul>
+<li>物理(Physical): <ul>
+<li>性別、年齡</li>
+<li>種族</li>
+<li>地理位置</li>
+<li>身高、體重</li>
+<li>健康</li>
+</ul>
+</li>
+<li>社會<ul>
+<li>婚姻</li>
+<li>生命階段</li>
+<li>職業</li>
+<li>薪資水平</li>
+<li>組織和社交群體</li>
+</ul>
+</li>
+<li>情感<ul>
+<li>需求、慾望</li>
+<li>夢想</li>
+<li>興趣</li>
+<li>正面情感</li>
+<li>負面情感</li>
+</ul>
+</li>
+<li>行為<ul>
+<li>日常行程</li>
+<li>購物模式</li>
+<li>偏好</li>
+<li>其他行為</li>
+</ul>
+</li>
+</ul>
+<p>從不同的維度，可以往不同的方向思考受眾屬性，如情感可以思考:甚麼導致他們恐懼、焦慮，他們的夢想、理想，他們重視的是甚麼。行為屬性則可以思考: 他們的上下班時間，購物習慣等等。</p>
+<h2 id="同理心地圖-empathy-map-與人物誌-persona"><a href="#同理心地圖-empathy-map-與人物誌-persona" class="headerlink" title="同理心地圖(empathy map)與人物誌(persona)"></a>同理心地圖(empathy map)與人物誌(persona)</h2><h3 id="同理心地圖"><a href="#同理心地圖" class="headerlink" title="同理心地圖"></a>同理心地圖</h3><p><img src="https://lh3.googleusercontent.com/uSK8NknDpTC0KxMgLK07ntRV32sSqoEg6dUXjJdvdYRNfIAN4HZF9ME83sSQ-sGDVFlSEldncfK4RpQfwcQPNHg3wc9SehnhvSgSqEVkmPwrfklcaqhE7glDG4qFjYn9jt8d6X4nSk74SzAb0WoZBPJJ0nzdKkUk1tc2CWe-GNt-jikdbwEtH13Q1MFQsfr0KuOYbKHebVBIYqF1g8NEARoCiEaDiRntuyXkHtNW9I09g-S9u6AEPBFoNpG9Bw0lNi-bykl6eRWkfrR7jhEwHfg1TR8fZ_eZGMMtRadPDTXrMUZS3ODTPSKbm5NB1HhCcMfrV5cC6_DJ3HS0m7_YkbUo0YPs1g3q4oq4OtHUugDZj5ZtkuxZ1XqzaJwUbBj8Oy56rzIYWRCMglzEpzKVSILdxZbgE3KjnJTkkJrxRjXTMypgruH-gVgCi109nk9-C7VkbdS2FVBX2B1WuQDICWIAtZVsoUIJJ3uugNVOdizBwK6l7pr7ZrAAxr0YB37O6aYVRQ83t_GPxsOffOMjGCrNuguwXfwGl_3pjYZ714bMRXL16KaKolblQX1lJhCHDjKtB542kOr-Vcmg8I-s1WJ1EskPsMTDmpLT24YgcgKBoh9QrEYfCYkz9iT5jVeKDn0GoKTRusucNg2gfmuykRmIxseZZQ-htw16Sjw4lqruSS93FFc9pMplQbNlsDplHJZCVenuVUAMwCquX18wP_Ey=w584-h438-no" alt="empathy map"></p>
+<p>主要有六大區塊:</p>
+<ul>
+<li>想法、感覺</li>
+<li>聽到甚麼</li>
+<li>看到甚麼</li>
+<li>說或做了甚麼</li>
+<li>痛苦</li>
+<li>獲得</li>
+</ul>
+<p>在使用上先找到一位目標受眾，然後會先給予分析對象的名字、身分，在將資訊寫上同理心地圖。</p>
+<h3 id="人物誌"><a href="#人物誌" class="headerlink" title="人物誌"></a>人物誌</h3><p>透過地圖收集的資訊，在整理後，我們可以為目標受眾定義一個 Persona。</p>
+<p>製作人物誌是從真實使用者身上所調查得到的資訊，建構出一個代表目標群體的虛構人物，所以 Persona 要確切地反映出目標族群的屬性特徵、思考模式以及行為。</p>
+<p>人物誌最大的用途是可以幫助我們在做產品設計決策時，擁有具體的想像與思考方向，所以建立好之後必須常常看它、使用它。</p>
+<h2 id="訪談小技巧"><a href="#訪談小技巧" class="headerlink" title="訪談小技巧"></a>訪談小技巧</h2><p>為了從使用者身上收集到真實、有效的回饋，透過訪談技巧可以讓我們更容易取需要的資訊。</p>
+<ul>
+<li>找使用者做產品測試需要訪談，為求實際使用心得。</li>
+<li>尋求合作機會需要訪談，為求了解對方是否值得信賴。</li>
+<li>向業主接案需要訪談，為求了解需求。</li>
+<li>向VC、天使投資人聊天也做訪談，了解對方對自己公司的真實看法。</li>
+</ul>
+<h3 id="核心想法與實際行為關係"><a href="#核心想法與實際行為關係" class="headerlink" title="核心想法與實際行為關係"></a>核心想法與實際行為關係</h3><p>如果了解受訪者的核心想法，就可以從對方的觀點、在設定的情境下推測想法與行為，從而知道結果。</p>
+<p>不過在現實社會上，往往會有核心想法與實際行為會有所落差，所以藉由訪談過程，去慢慢了解受訪者，藉由各種小技巧幫助我們觸碰核心問題、想法。</p>
+<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ol>
+<li>設定清楚的訪談目的。</li>
+<li>慎選挑選受訪者、了解目前狀態。</li>
+<li>設計友善的訪談流程。</li>
+<li>多使用開放式問答。</li>
+<li>傾聽、觀察微訊息。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/user-experience/" rel="tag"># user experience</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/19/2019-8-19_UXpart1/" rel="next" title="Alpha Camp 了解產品設計思考與使用者體驗(上)">
+                <i class="fa fa-chevron-left"></i> Alpha Camp 了解產品設計思考與使用者體驗(上)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/03/2019-9-3_pagination/" rel="prev" title="Pagination 分頁實作">
+                Pagination 分頁實作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何定義目標受眾-Target-Audience-TA"><span class="nav-number">2.</span> <span class="nav-text">如何定義目標受眾(Target Audience - TA)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目標受眾的屬性-Attribute"><span class="nav-number">2.1.</span> <span class="nav-text">目標受眾的屬性(Attribute)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同理心地圖-empathy-map-與人物誌-persona"><span class="nav-number">3.</span> <span class="nav-text">同理心地圖(empathy map)與人物誌(persona)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同理心地圖"><span class="nav-number">3.1.</span> <span class="nav-text">同理心地圖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人物誌"><span class="nav-number">3.2.</span> <span class="nav-text">人物誌</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#訪談小技巧"><span class="nav-number">4.</span> <span class="nav-text">訪談小技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心想法與實際行為關係"><span class="nav-number">4.1.</span> <span class="nav-text">核心想法與實際行為關係</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技巧"><span class="nav-number">4.2.</span> <span class="nav-text">技巧</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

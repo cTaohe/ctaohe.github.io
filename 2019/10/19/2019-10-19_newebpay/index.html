@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言練習藍新金流，記錄實作步驟與需要的參數，參考 alpha camp 教材以及 藍新串接官方文件 邏輯在串接上第三方支付平台需要取得交易參數    參數 中文 備註     MerchantID 商店代號 藍新金流商店代號   Version 串接程式版本    RespondType 回傳格式 Json 或 string   TimeStamp 時間戳    Amt 訂單金額    Email">
+<meta name="keywords" content="javascript,newebypay">
+<meta property="og:type" content="article">
+<meta property="og:title" content="藍新金流串接實作">
+<meta property="og:url" content="https://ctaohe.github.io/2019/10/19/2019-10-19_newebpay/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前言練習藍新金流，記錄實作步驟與需要的參數，參考 alpha camp 教材以及 藍新串接官方文件 邏輯在串接上第三方支付平台需要取得交易參數    參數 中文 備註     MerchantID 商店代號 藍新金流商店代號   Version 串接程式版本    RespondType 回傳格式 Json 或 string   TimeStamp 時間戳    Amt 訂單金額    Email">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-11-14T07:14:39.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="藍新金流串接實作">
+<meta name="twitter:description" content="前言練習藍新金流，記錄實作步驟與需要的參數，參考 alpha camp 教材以及 藍新串接官方文件 邏輯在串接上第三方支付平台需要取得交易參數    參數 中文 備註     MerchantID 商店代號 藍新金流商店代號   Version 串接程式版本    RespondType 回傳格式 Json 或 string   TimeStamp 時間戳    Amt 訂單金額    Email">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/10/19/2019-10-19_newebpay/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>藍新金流串接實作 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/10/19/2019-10-19_newebpay/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">藍新金流串接實作
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-10-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-19T00:00:00+08:00">2019-10-19</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/後端/" itemprop="url" rel="index"><span itemprop="name">後端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>練習藍新金流，記錄實作步驟與需要的參數，參考 alpha camp 教材以及 <a href="https://www.newebpay.com/website/Page/content/download_api" target="_blank" rel="noopener">藍新串接官方文件</a></p>
+<h2 id="邏輯"><a href="#邏輯" class="headerlink" title="邏輯"></a>邏輯</h2><p>在串接上第三方支付平台需要取得交易參數</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>中文</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MerchantID</td>
+<td>商店代號</td>
+<td>藍新金流商店代號</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>串接程式版本</td>
+<td></td>
+</tr>
+<tr>
+<td>RespondType</td>
+<td>回傳格式</td>
+<td>Json 或 string</td>
+</tr>
+<tr>
+<td>TimeStamp</td>
+<td>時間戳</td>
+<td></td>
+</tr>
+<tr>
+<td>Amt</td>
+<td>訂單金額</td>
+<td></td>
+</tr>
+<tr>
+<td>Email</td>
+<td>付款人電子信箱</td>
+<td></td>
+</tr>
+<tr>
+<td>MerchantOrderNo</td>
+<td>商店訂單編號</td>
+<td></td>
+</tr>
+<tr>
+<td>ItemDesc</td>
+<td>商品資訊</td>
+<td>鑑別訂單紀錄</td>
+</tr>
+<tr>
+<td>LoginType</td>
+<td>藍新金流會員</td>
+<td>1 為需要登入，0 為不需要，對 client 的要求</td>
+</tr>
+<tr>
+<td>ReturnURL</td>
+<td>支付完成返還商店網址</td>
+<td></td>
+</tr>
+<tr>
+<td>NotifyURL</td>
+<td>支付通知網址</td>
+<td>每期授權結果通知</td>
+</tr>
+<tr>
+<td>ClientBackURL</td>
+<td>支付取消返回網址</td>
+</tr>
+</tbody>
+</table>
+<p>資料會進行加密才進行傳送參數</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>中文</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MerchantID</td>
+<td>商品代號</td>
+</tr>
+<tr>
+<td>TradInfo</td>
+<td>交易資料 AES 加密</td>
+</tr>
+<tr>
+<td>TradInSha</td>
+<td>交易資料 SHA256 加密</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>串接程式版本</td>
+</tr>
+</tbody>
+</table>
+<p>前端頁面會先取得訂單付款頁面，取得<code>訂單編號</code>、<code>總金額</code>、<code>金流參數</code>、<code>加密過後資料(AES、SHA256)</code>。</p>
+<p>教材顯示 <code>MerchantID</code>、 <code>TradeInfo</code>、 <code>TradeSha</code>、 <code>Version</code>，官方是以字串呈現，以及教材導向網址 <code>PayGateWay</code>(可更改命名是為表單給予要導向的網頁，教材命名這個名稱)，在按出按鈕後傳送到付款頁面。</p>
+<p>官方 ( HTML )</p>
+<ul>
+<li>正式: <code>https://core.newebpay.com/MPG/period</code></li>
+<li>測試: <code>https://ccore.newebpay.com/MPG/period</code></li>
+<li>新網址: <code>https://ccore.newebpay.com/MPG/mpg_gateway</code></li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"https://ccore.newebpay.com/MPG/mpg_gateway"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"MerchantID"</span> <span class="attr">value</span>=<span class="string">"MS35199"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"PostData_"</span> <span class="attr">value</span>=<span class="string">"357d8c54d0d"</span> /&gt;</span> //加密後字串</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"go"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>教材( 使用 handlebars )</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>準備為訂單編號： &#123;&#123;order.id&#125;&#125; 付款<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span>&gt;</span>總價 &#123;&#123;order.amount&#125;&#125;<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span>&gt;</span>總價 &#123;&#123;order.amount&#125;&#125;<span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">name</span>=<span class="string">"Spgateway"</span> <span class="attr">action</span>=<span class="string">"&#123;&#123;tradeInfo.PayGateWay&#125;&#125;"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line">  MerchantID:</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"MerchantID"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123;tradeInfo.MerchantID&#125;&#125;"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  TradeInfo:</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"TradeInfo"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123;tradeInfo.TradeInfo&#125;&#125;"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  TradeSha:</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"TradeSha"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123;tradeInfo.TradeSha&#125;&#125;"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  Version:</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"Version"</span> <span class="attr">value</span>=<span class="string">"&#123;&#123;tradeInfo.Version&#125;&#125;"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">class</span>=<span class="string">"btn btn-primary"</span>&gt;</span>Payment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h2><ol>
+<li>付款頁面，如果有購物餐車，顯示購物車資料，在按付款後才會導向真正的付款頁面，這裡為 <code>/order/:id/payment</code></li>
+<li><p>串接金流 Get /order/:id/payment，取得訂單 data，使用 4 個 function ， <code>genDataChain</code> 將物件轉換成字串、<code>create_mpg_aes_encrypt</code> 加密、<code>create_mpg_sha_encrypt</code>雜湊打包 <code>TradeInfo</code>進行交易、回傳後使用的 <code>create_mpg_aes_decrypt</code>解密，最後解密重新取得 <code>TradeInfo</code> 處理已取得的資料。</p>
+<ul>
+<li>getTradeInfo - 取得 data</li>
+<li>getTradeInfo - data 放入 mpg_aes_encrypt(data) 處理 , 結果再放入 mpg_sha_encrypt(mpg_aes_encrypt(data)) 處理</li>
+<li><p>getTradeInfo - 得到的資料打包成 tradeInfo，包含上方提到的 MerchantID 、 TradInfo 放 mpg_aes_encrypt ， TradInSha 放 mpg_sha_encrypt， Version 放版本。</p>
+</li>
+<li><p>另外在多 payGeteWay，發送 API 的位置，還有 MerchantOrderNo，存到訂單做紀錄。</p>
+</li>
+</ul>
+</li>
+<li><p>串接金流 Post /spgateway/callback</p>
+<ul>
+<li><code>/spgateway/callback?from=NotifyURL</code>，支付通知網址，電商端 req.query 會收到</li>
+<li>spgatewayCallback: <code>TradeInfo</code>，交易完成後回傳的資料，作為電商核對確認付款</li>
+<li>spgatewayCallback: <code>create_mpg_aes_decrypt</code>，使用解密函式，作為確認資料正確性，以及更新資料庫</li>
+<li>spgatewayCallback: <code>data</code>，<code>create_mpg_aes_decrypt</code>解密後</li>
+<li><code>/spgateway/callback?from=ReturnURL</code>，支付完成返還商店網址</li>
+</ul>
+</li>
+</ol>
+<h2 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h2><p>定義 route</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">router.get(<span class="string">"/order/:id/payment"</span>, orderController.getPayment);</span><br><span class="line">router.post(<span class="string">"/spgateway/callback"</span>, orderController.spgatewayCallback);</span><br></pre></td></tr></table></figure>
+<p>定義參數</p>
+<ul>
+<li>臨時網址 <a href="https://ngrok.com/" target="_blank" rel="noopener">ngrok</a> 工具</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> URL = <span class="string">""</span>; <span class="comment">//本地 domain 不接受，使用 ngrok 工具做臨時網址，取得的網址放這</span></span><br><span class="line"><span class="keyword">const</span> MerchantID = <span class="string">""</span>; <span class="comment">// 商店代號</span></span><br><span class="line"><span class="keyword">const</span> HashKey = <span class="string">""</span>; <span class="comment">//API 金鑰</span></span><br><span class="line"><span class="keyword">const</span> HashIV = <span class="string">""</span>; <span class="comment">//API 金鑰</span></span><br><span class="line"><span class="keyword">const</span> PayGateWay = <span class="string">"https://ccore.spgateway.com/MPG/mpg_gateway"</span>; <span class="comment">//付款網址</span></span><br><span class="line"><span class="keyword">const</span> ReturnURL = URL + <span class="string">"/spgateway/callback?from=ReturnURL"</span>; <span class="comment">//支付完成返還商店網址</span></span><br><span class="line"><span class="keyword">const</span> NotifyURL = URL + <span class="string">"/spgateway/callback?from=NotifyURL"</span>; <span class="comment">//支付通知網址</span></span><br><span class="line"><span class="keyword">const</span> ClientBackURL = URL + <span class="string">"/orders"</span>; <span class="comment">//支付取消返回網址</span></span><br></pre></td></tr></table></figure>
+<p>敏感資料安裝 dotenv 放在 .env</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">URL=</span><br><span class="line">MERCHANT_ID=</span><br><span class="line">HASH_KEY=</span><br><span class="line">HASH_IV=</span><br></pre></td></tr></table></figure>
+<p>加密用 function，最後會將 getTradeInfo 放到 getPayment 。經由 getPayment 呼叫 getTradeInfo 傳入 <code>Amt</code>、 <code>Desc</code>、 <code>email</code>，進入 getTradeInfo 之後</p>
+<ul>
+<li><code>genDataChain</code>放在 <code>create_mpg_aes_encrypt()</code> 中幫忙 data 改為字串資料</li>
+<li>將 <code>data</code> 作為參數放到 <code>create_mpg_aes_encrypt(TradeInfo)</code> 宣告成 <code>mpg_aes_encrypt</code></li>
+<li>將 <code>mpg_aes_encrypt</code> 放到 <code>create_mpg_sha_encrypt(TradeInfo)</code> 宣告成 <code>mpg_sha_encrypt</code></li>
+<li>宣告 <code>tradeInfo</code> 打包 mpg_aes_encrypt 、 mpg_aes_encrypt 等資料回傳作為傳送交易參數</li>
+</ul>
+<p>使用 getTradeInfo 時，我們會定義 data 其中會設定 <code>MerchantOrderNo</code> 並用 <code>Date.now()</code> 設定編號,未來在 打包 <code>tradeInfo</code> 也會設定 <code>MerchantOrderNo</code> 將資料從 data 傳入，在做交易的時候，取得回傳交易資料解碼後一樣會有 <code>MerchantOrderNo</code>，我們會當作 order 欄位 <code>sn</code> 搜尋依據，更改是否已經付款。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> crypto = <span class="built_in">require</span>(<span class="string">"crypto"</span>); <span class="comment">// 加密</span></span><br><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">"nodemailer"</span>); <span class="comment">// 寄送 mail</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 放入 create_mpg_aes_encrypt 將交易資訊轉成字串，以便加密使用</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">genDataChain</span>(<span class="params">TradeInfo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> results = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> kv <span class="keyword">of</span> <span class="built_in">Object</span>.entries(TradeInfo)) &#123;</span><br><span class="line">    results.push(<span class="string">`<span class="subst">$&#123;kv[<span class="number">0</span>]&#125;</span>=<span class="subst">$&#123;kv[<span class="number">1</span>]&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> results.join(<span class="string">"&amp;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_mpg_aes_encrypt</span>(<span class="params">TradeInfo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> encrypt = crypto.createCipheriv(<span class="string">"aes256"</span>, HashKey, HashIV);</span><br><span class="line">  <span class="keyword">let</span> enc = encrypt.update(genDataChain(TradeInfo), <span class="string">"utf8"</span>, <span class="string">"hex"</span>);</span><br><span class="line">  <span class="keyword">return</span> enc + encrypt.final(<span class="string">"hex"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_mpg_sha_encrypt</span>(<span class="params">TradeInfo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> sha = crypto.createHash(<span class="string">"sha256"</span>);</span><br><span class="line">  <span class="keyword">let</span> plainText = <span class="string">`HashKey=<span class="subst">$&#123;HashKey&#125;</span>&amp;<span class="subst">$&#123;TradeInfo&#125;</span>&amp;HashIV=<span class="subst">$&#123;HashIV&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> sha</span><br><span class="line">    .update(plainText)</span><br><span class="line">    .digest(<span class="string">"hex"</span>)</span><br><span class="line">    .toUpperCase();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交易完成後回傳資料使用的反向解密</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create_mpg_aes_decrypt</span>(<span class="params">TradeInfo</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> decrypt = crypto.createDecipheriv(<span class="string">"aes256"</span>, HashKey, HashIV);</span><br><span class="line">  decrypt.setAutoPadding(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">let</span> text = decrypt.update(TradeInfo, <span class="string">"hex"</span>, <span class="string">"utf8"</span>);</span><br><span class="line">  <span class="keyword">let</span> plainText = text + decrypt.final(<span class="string">"utf8"</span>);</span><br><span class="line">  <span class="keyword">let</span> result = plainText.replace(<span class="regexp">/[\x00-\x20]+/g</span>, <span class="string">""</span>);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getTradeInfo</span>(<span class="params">Amt, Desc, email</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== getTradeInfo ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(Amt, Desc, email);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"=========="</span>);</span><br><span class="line"></span><br><span class="line">  data = &#123;</span><br><span class="line">    MerchantID: MerchantID, <span class="comment">// 商店代號</span></span><br><span class="line">    RespondType: <span class="string">"JSON"</span>, <span class="comment">// 回傳格式</span></span><br><span class="line">    TimeStamp: <span class="built_in">Date</span>.now(), <span class="comment">// 時間戳記</span></span><br><span class="line">    Version: <span class="number">1.5</span>, <span class="comment">// 串接程式版本</span></span><br><span class="line">    MerchantOrderNo: <span class="built_in">Date</span>.now(), <span class="comment">// 商店訂單編號</span></span><br><span class="line">    LoginType: <span class="number">0</span>, <span class="comment">// 智付通會員</span></span><br><span class="line">    OrderComment: <span class="string">"OrderComment"</span>, <span class="comment">// 商店備註</span></span><br><span class="line">    Amt: Amt, <span class="comment">// 訂單金額</span></span><br><span class="line">    ItemDesc: Desc, <span class="comment">// 產品名稱</span></span><br><span class="line">    Email: email, <span class="comment">// 付款人電子信箱</span></span><br><span class="line">    ReturnURL: ReturnURL, <span class="comment">// 支付完成返回商店網址</span></span><br><span class="line">    NotifyURL: NotifyURL, <span class="comment">// 支付通知網址/每期授權結果通知</span></span><br><span class="line">    ClientBackURL: ClientBackURL <span class="comment">// 支付取消返回商店網址</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== getTradeInfo: data ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(data);</span><br><span class="line"></span><br><span class="line">  mpg_aes_encrypt = create_mpg_aes_encrypt(data);</span><br><span class="line">  mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== getTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(mpg_aes_encrypt);</span><br><span class="line">  <span class="built_in">console</span>.log(mpg_sha_encrypt);</span><br><span class="line"></span><br><span class="line">  tradeInfo = &#123;</span><br><span class="line">    MerchantID: MerchantID, <span class="comment">// 商店代號</span></span><br><span class="line">    TradeInfo: mpg_aes_encrypt, <span class="comment">// 加密後參數</span></span><br><span class="line">    TradeSha: mpg_sha_encrypt,</span><br><span class="line">    Version: <span class="number">1.5</span>, <span class="comment">// 串接程式版本</span></span><br><span class="line">    PayGateWay: PayGateWay,</span><br><span class="line">    MerchantOrderNo: data.MerchantOrderNo</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== getTradeInfo: tradeInfo ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(tradeInfo);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> tradeInfo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>GET /order/:id/payment</code></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">getPayment: <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== getPayment ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(req.params.id);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"=========="</span>);</span><br><span class="line">  <span class="keyword">return</span> Order.findByPk(req.params.id, &#123;&#125;).then(<span class="function"><span class="params">order</span> =&gt;</span> &#123;</span><br><span class="line">      order.update(&#123;</span><br><span class="line">        ...req.body,</span><br><span class="line">        sn: tradeInfo.MerchantOrderNo, <span class="comment">//從購物餐車到取得付款頁面時，將 sn 更新，確立訂單成立。</span></span><br><span class="line">      &#125;).then(<span class="function"><span class="params">order</span> =&gt;</span> &#123;</span><br><span class="line">        res.render(<span class="string">'payment'</span>, &#123;order, tradeInfo&#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>Post /spgateway/callback</code></p>
+<p>在 return 的結果中，<code>req.body.TradeInfo</code> 的 <code>Result</code>，會有紀錄 TradeNo 編號，我們使用這個交易編號，作為我們在資料庫 order 中撈資料的依據</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">spgatewayCallback: <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== spgatewayCallback ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(req.method); <span class="comment">// 總共四次，回傳前 post 3 次，確認電商網站是否正常。</span></span><br><span class="line">  <span class="built_in">console</span>.log(req.query); <span class="comment">// 回傳 &#123; from: NotifyURL&#125;，第四次回傳 &#123; from: ReturnURL&#125;</span></span><br><span class="line">  <span class="built_in">console</span>.log(req.body); <span class="comment">// 回傳的 object 解碼使用</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"=========="</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== spgatewayCallback: TradeInfo ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(req.body.TradeInfo);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">const</span> data = <span class="built_in">JSON</span>.parse(create_mpg_aes_decrypt(req.body.TradeInfo))</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"===== spgatewayCallback: create_mpg_aes_decrypt、data ====="</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(data);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> Order.findAll(&#123;</span><br><span class="line">    where: &#123; <span class="attr">sn</span>: data[<span class="string">"Result"</span>][<span class="string">"MerchantOrderNo"</span>] &#125;</span><br><span class="line">  &#125;).then(<span class="function"><span class="params">orders</span> =&gt;</span> &#123;</span><br><span class="line">    orders[<span class="number">0</span>]</span><br><span class="line">      .update(&#123;</span><br><span class="line">        ...req.body,</span><br><span class="line">        payment_status: <span class="number">1</span> <span class="comment">//在解密資料後修改付款狀態為真</span></span><br><span class="line">      &#125;)</span><br><span class="line">      .then(<span class="function"><span class="params">order</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> res.redirect(<span class="string">"/orders"</span>);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+            <a href="/tags/newebypay/" rel="tag"># newebypay</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/03/2019-9-3_pagination/" rel="next" title="Pagination 分頁實作">
+                <i class="fa fa-chevron-left"></i> Pagination 分頁實作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/05/2019-11-5_jsoneditoronline/" rel="prev" title="jsoneditoronline.org">
+                jsoneditoronline.org <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#邏輯"><span class="nav-number">2.</span> <span class="nav-text">邏輯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步驟"><span class="nav-number">3.</span> <span class="nav-text">步驟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實作"><span class="nav-number">4.</span> <span class="nav-text">實作</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

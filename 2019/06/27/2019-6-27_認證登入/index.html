@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Session &amp;amp; Cookie甚麼是 Session?追蹤同一使用者透過瀏覽器發出的連續請求時，可以製作一組憑證，紀錄設備間的交流，這種機制叫 session。 session 是擁有所有使用者登入紀錄的龐大物件，物件裡都是 key-value pair， session id(sid)、 value(session_data)。 如同飲料店(伺服器)的會員機制。 存放 session">
+<meta name="keywords" content="passport.js,passport-local,express-session">
+<meta property="og:type" content="article">
+<meta property="og:title" content="認證功能-登入">
+<meta property="og:url" content="https://ctaohe.github.io/2019/06/27/2019-6-27_認證登入/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="Session &amp;amp; Cookie甚麼是 Session?追蹤同一使用者透過瀏覽器發出的連續請求時，可以製作一組憑證，紀錄設備間的交流，這種機制叫 session。 session 是擁有所有使用者登入紀錄的龐大物件，物件裡都是 key-value pair， session id(sid)、 value(session_data)。 如同飲料店(伺服器)的會員機制。 存放 session">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-06-27T15:16:47.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="認證功能-登入">
+<meta name="twitter:description" content="Session &amp;amp; Cookie甚麼是 Session?追蹤同一使用者透過瀏覽器發出的連續請求時，可以製作一組憑證，紀錄設備間的交流，這種機制叫 session。 session 是擁有所有使用者登入紀錄的龐大物件，物件裡都是 key-value pair， session id(sid)、 value(session_data)。 如同飲料店(伺服器)的會員機制。 存放 session">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/06/27/2019-6-27_認證登入/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>認證功能-登入 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/27/2019-6-27_認證登入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">認證功能-登入
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-27 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-27T00:00:00+08:00">2019-06-27</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Session-amp-Cookie"><a href="#Session-amp-Cookie" class="headerlink" title="Session &amp; Cookie"></a>Session &amp; Cookie</h2><h3 id="甚麼是-Session"><a href="#甚麼是-Session" class="headerlink" title="甚麼是 Session?"></a>甚麼是 Session?</h3><p>追蹤同一使用者透過瀏覽器發出的連續請求時，可以製作一組憑證，紀錄設備間的交流，這種機制叫 session。</p>
+<p>session 是擁有所有使用者登入紀錄的龐大物件，物件裡都是 <code>key-value pair</code>， session id(sid)、 value(session_data)。 如同飲料店(伺服器)的會員機制。</p>
+<p>存放 session 物件的地方稱為 session store。</p>
+<h3 id="甚麼是-Cookie"><a href="#甚麼是-Cookie" class="headerlink" title="甚麼是 Cookie?"></a>甚麼是 Cookie?</h3><p>cookie，以飲料店的會員卡為例， cookie 為會員卡，通常會員卡放在皮夾中，皮夾即為瀏覽器。</p>
+<p>瀏覽器讓伺服器可以把 session id 存在瀏覽器的 cookie 上，使瀏覽器每次對伺服器發送請求時，都帶有cookie資訊，於是伺服器可以透過 cookie 取得 session id。</p>
+<h3 id="使用-dev-tool-打開-network"><a href="#使用-dev-tool-打開-network" class="headerlink" title="使用 dev tool 打開 network"></a>使用 dev tool 打開 network</h3><p>打開看伺服器傳給瀏覽器的 <code>Response Headers</code>，可以發現 <code>set-cookie</code>，這串特殊編，解譯後會包含session id。</p>
+<p><code>Response Headers</code> 中的 <code>cookie</code>長串訊息，包含著上次伺服器告訴瀏覽器的通關密碼。 所以這次 <code>request-response</code> 流程， 瀏覽器把這段密碼放到 cookie 傳送給伺服器，於是伺服器就可以辨識出是哪個瀏覽器了。</p>
+<h3 id="session-安全性"><a href="#session-安全性" class="headerlink" title="session 安全性"></a>session 安全性</h3><p>如果 session id 被盜用，被放到另外一個 cookie 中，將 session id 修改成跟你一樣，就可以在不需要登入的狀況下操作他人帳號。</p>
+<p>最普遍防止方法是透過 <code>簽章(signature)</code>，在伺服器端，開發者設定 <code>密鑰(secret)</code>， 與要傳送出去的 session id 透過認證演算法整合，產生一組邊碼將之存在 cookie。</p>
+<p>於是伺服器端可以使用 secret，還原 session id，如果被惡意篡改，還原會發生錯誤而導致比對無效。</p>
+<h2 id="登入功能"><a href="#登入功能" class="headerlink" title="登入功能"></a>登入功能</h2><p>實務上稱為 <code>使用者認證(user authentication)</code>。 建立登入功能，其中簡單的方法是如同註冊功能，檢查資料庫使用者註冊過的資料，使用 <code>User.findOne</code>查詢資料庫，再 <code>比對密碼是否正確</code>。</p>
+<p>另一種做法使用 Express-session 與 passport，皆為 middleware。</p>
+<h3 id="Express-session"><a href="#Express-session" class="headerlink" title="Express-session"></a><a href="https://www.npmjs.com/package/express-session" target="_blank" rel="noopener">Express-session</a></h3><p>建立 session 的 middleware，使用 session(option)。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.use(session(&#123;</span><br><span class="line">  secret: <span class="string">'xxxxxx'</span>,</span><br><span class="line">  resave: <span class="literal">false</span>,</span><br><span class="line">  saveUninitialized: <span class="literal">true</span>,</span><br><span class="line">  cookie: &#123; <span class="attr">secure</span>: <span class="literal">true</span> &#125;</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<p>以上四個參數都是 session middleware 提供的 <code>參數(option)</code> 之一，未來將用以載入，放在修改 app.js 部分。</p>
+<p>secret 是可以用來自訂的通關密語，會與資訊做認證演算法整合。</p>
+<h3 id="Passport"><a href="#Passport" class="headerlink" title="Passport"></a><a href="http://www.passportjs.org/" target="_blank" rel="noopener">Passport</a></h3><p>使用來完成認證功能的 middleware。</p>
+<h4 id="Passport-Strategies"><a href="#Passport-Strategies" class="headerlink" title="Passport Strategies"></a>Passport Strategies</h4><p>Passport 須配合<code>認證策略(strategies)</code>，passport 目前提供超過500種認證策略，讓開法者可以容易將自己產品與各種大型平台服務整合。</p>
+<h4 id="設定策略語法-configure-strategy"><a href="#設定策略語法-configure-strategy" class="headerlink" title="設定策略語法(configure strategy)"></a>設定策略語法(configure strategy)</h4><p>passport-local 本地策略的<a href="https://github.com/jaredhanson/passport-local#configure-strategy" target="_blank" rel="noopener">策略語法</a></p>
+<h4 id="Serialize-與-deserialize"><a href="#Serialize-與-deserialize" class="headerlink" title="Serialize 與 deserialize"></a>Serialize 與 deserialize</h4><p>Passport 的序列化會把 <code>使用者實例(user instance)</code> 轉化為字串存在伺服器端的 session 資料。</p>
+<p>反序列化是透過 session 資料，取回擁有 login session 的使用者實例。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 序列化</span></span><br><span class="line">passport.serializerUser(<span class="function"><span class="keyword">function</span> (<span class="params">user, done</span>)</span>&#123;</span><br><span class="line">  done(<span class="literal">null</span>, user.id)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 反序列化</span></span><br><span class="line">passport.derserializerUser(<span class="function"><span class="keyword">function</span> (<span class="params">id, done</span>)</span>&#123;</span><br><span class="line">  user.findById(id, <span class="function"><span class="keyword">function</span> (<span class="params">err, user</span>)</span>&#123;</span><br><span class="line">    done(err,user)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="登入認證實作步驟"><a href="#登入認證實作步驟" class="headerlink" title="登入認證實作步驟"></a>登入認證實作步驟</h2><ol>
+<li>安裝 passport、passport-local、express-session</li>
+<li>新增config資料夾，命名 passport.js</li>
+<li>修改 app.js 使用 passport、 express-session</li>
+<li>修改使用者路由 routes/user.js</li>
+</ol>
+<h3 id="安裝-middleware"><a href="#安裝-middleware" class="headerlink" title="安裝 middleware"></a>安裝 middleware</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install passport passport-local express-session</span><br></pre></td></tr></table></figure>
+<h3 id="建立-passport-middleware-in-config-passport-js"><a href="#建立-passport-middleware-in-config-passport-js" class="headerlink" title="建立 passport middleware in config/passport.js"></a>建立 passport middleware in config/passport.js</h3><p>關注點分離，新增config資料夾，命名 passport.js，載入 middleware、model，宣告 LocalStrategy 物件， 引入官方語法，定義usernameField 為 email(以 email 代表用戶名稱)。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> LocalStrategy =<span class="built_in">require</span>(<span class="string">'passport-local'</span>).Strategy</span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// include User model</span></span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">'../models/user'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">passport</span> =&gt;</span> &#123;</span><br><span class="line">  passport.use(</span><br><span class="line">    <span class="keyword">new</span> LocalStrategy(&#123; <span class="attr">usernameField</span>: <span class="string">'email'</span> &#125;, (email, password, done) =&gt; &#123; <span class="comment">// use LocalStrategy</span></span><br><span class="line">      User.findOne(&#123;</span><br><span class="line">        email: email</span><br><span class="line">      &#125;).then(<span class="function"><span class="params">user</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">          <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>, &#123;<span class="attr">message</span>: <span class="string">'That email is not registered'</span>&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (user.password != password) &#123;</span><br><span class="line">          <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>, &#123;<span class="attr">message</span>: <span class="string">'Email or Password incorrect'</span>&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> done(<span class="literal">null</span>, user)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 序列化</span></span><br><span class="line">  passport.serializerUser(<span class="function"><span class="keyword">function</span> (<span class="params">user, done</span>)</span>&#123;</span><br><span class="line">    done(<span class="literal">null</span>, user.id)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 反序列化</span></span><br><span class="line">  passport.derserializerUser(<span class="function"><span class="keyword">function</span> (<span class="params">id, done</span>)</span>&#123;</span><br><span class="line">    user.findById(id, <span class="function"><span class="keyword">function</span> (<span class="params">err, user</span>)</span>&#123;</span><br><span class="line">      done(err,user)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="修改-app-js"><a href="#修改-app-js" class="headerlink" title="修改 app.js"></a>修改 app.js</h3><ol>
+<li>載入 express-session、passport middleware</li>
+<li>使用 app.use 初始化使用 session、passport</li>
+<li>載入 config/passport.js，設定一個 local variable 儲存 user</li>
+</ol>
+<p><code>2019-6-27</code> : 新增變數，這個變數的值會從瀏覽器傳到伺服器，讓伺服器知道使用者是否已經登入。</p>
+<p>變數: <code>req.local.isAuthenticated</code> ，<a href="https://github.com/jaredhanson/passport/blob/master/lib/http/request.js#L83" target="_blank" rel="noopener">isAuthenticated</a> 是現成方法， 在設定認證也有相關內容。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>)</span><br><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>)</span><br><span class="line"></span><br><span class="line">app.use(session(&#123; <span class="comment">//使用者認證</span></span><br><span class="line">  secret: <span class="string">'your secret word'</span> <span class="comment">// 這裡只用 secret</span></span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 passport 使用 passport session(放在 session 之後)</span></span><br><span class="line">app.use(passport.initialize())</span><br><span class="line">app.use(possport.session())</span><br><span class="line"></span><br><span class="line"><span class="comment">// passport config 引入前面產生的session id所產生的值，從 req.user 放在 res.local 裡面</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'./config/passport'</span>)(passport) <span class="comment">// passport instance 套件引入瀏覽器中的 session id(passport)</span></span><br><span class="line"></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res, next</span>) =&gt;</span> &#123;</span><br><span class="line">  res.locals.user = req.user</span><br><span class="line">  res.locals.isAuthenticated = req.isAuthenticated <span class="comment">// 加入到這，讓 view可以使用</span></span><br><span class="line">  next()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="修改路由-routes-user-js-and-controller"><a href="#修改路由-routes-user-js-and-controller" class="headerlink" title="修改路由 routes/user.js and controller"></a>修改路由 routes/user.js and controller</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> router = express.Router()</span><br><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>) <span class="comment">// 載入 passport</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 登入</span></span><br><span class="line">router.get(<span class="string">'/login'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(<span class="string">'login'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 送出檢查</span></span><br><span class="line">router.post(<span class="string">'/login'</span>, (req, res, next) =&gt; &#123; <span class="comment">// 增加下一棒 next</span></span><br><span class="line">  passport.authenticate(<span class="string">'local'</span>, &#123;</span><br><span class="line">    successRedirect: <span class="string">'/'</span>, <span class="comment">//成功 轉到跟目錄</span></span><br><span class="line">    failureRedirect: <span class="string">'/users/login'</span> <span class="comment">// 失敗 到登入頁面</span></span><br><span class="line">  &#125;)(req, res, next)</span><br></pre></td></tr></table></figure>
+<h2 id="修改登入頁面"><a href="#修改登入頁面" class="headerlink" title="修改登入頁面"></a>修改登入頁面</h2><p>由於使用 handlebars 所以在 template 的地方加入相關語法可以使登出登入按鈕有所變化，而這變化是吃最後在 app.js 中 app.use 有設定到抓取 req.isAuthenticated 的程式碼。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;#if isAuthenticated&#125;&#125;</span><br><span class="line">  &lt;a href=&quot;/users/logout&quot;&gt;Logout&lt;/a&gt;</span><br><span class="line">&#123;&#123;else&#125;&#125;</span><br><span class="line">  &lt;a href=&quot;/users/login&quot;&gt;Login&lt;/a&gt;</span><br><span class="line">&#123;&#123;/if&#125;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/passport-js/" rel="tag"># passport.js</a>
+          
+            <a href="/tags/passport-local/" rel="tag"># passport-local</a>
+          
+            <a href="/tags/express-session/" rel="tag"># express-session</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/27/2019-6-27_登出登入建立關聯/" rel="next" title="建立使用者功能與資料關聯">
+                <i class="fa fa-chevron-left"></i> 建立使用者功能與資料關聯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/27/2019-6-27_認識OAuth/" rel="prev" title="OAuth">
+                OAuth <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Session-amp-Cookie"><span class="nav-number">1.</span> <span class="nav-text">Session &amp; Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#甚麼是-Session"><span class="nav-number">1.1.</span> <span class="nav-text">甚麼是 Session?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#甚麼是-Cookie"><span class="nav-number">1.2.</span> <span class="nav-text">甚麼是 Cookie?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-dev-tool-打開-network"><span class="nav-number">1.3.</span> <span class="nav-text">使用 dev tool 打開 network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session-安全性"><span class="nav-number">1.4.</span> <span class="nav-text">session 安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登入功能"><span class="nav-number">2.</span> <span class="nav-text">登入功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Express-session"><span class="nav-number">2.1.</span> <span class="nav-text">Express-session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Passport"><span class="nav-number">2.2.</span> <span class="nav-text">Passport</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Passport-Strategies"><span class="nav-number">2.2.1.</span> <span class="nav-text">Passport Strategies</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定策略語法-configure-strategy"><span class="nav-number">2.2.2.</span> <span class="nav-text">設定策略語法(configure strategy)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Serialize-與-deserialize"><span class="nav-number">2.2.3.</span> <span class="nav-text">Serialize 與 deserialize</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登入認證實作步驟"><span class="nav-number">3.</span> <span class="nav-text">登入認證實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-middleware"><span class="nav-number">3.1.</span> <span class="nav-text">安裝 middleware</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-passport-middleware-in-config-passport-js"><span class="nav-number">3.2.</span> <span class="nav-text">建立 passport middleware in config/passport.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改-app-js"><span class="nav-number">3.3.</span> <span class="nav-text">修改 app.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改路由-routes-user-js-and-controller"><span class="nav-number">3.4.</span> <span class="nav-text">修改路由 routes/user.js and controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改登入頁面"><span class="nav-number">4.</span> <span class="nav-text">修改登入頁面</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

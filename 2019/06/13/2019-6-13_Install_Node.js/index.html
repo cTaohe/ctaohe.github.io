@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars 2Wwhat?Node.js 是什麼?Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 的使用與瀏覽器是不可分割的，為了從瀏覽器解放，由美國工程師 ryan Dahl 創造，起源於 200">
+<meta name="keywords" content="express,Node.js,nodemon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Node.js">
+<meta property="og:url" content="https://ctaohe.github.io/2019/06/13/2019-6-13_Install_Node.js/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars 2Wwhat?Node.js 是什麼?Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 的使用與瀏覽器是不可分割的，為了從瀏覽器解放，由美國工程師 ryan Dahl 創造，起源於 200">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-11-14T07:15:33.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Node.js">
+<meta name="twitter:description" content="關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars 2Wwhat?Node.js 是什麼?Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 的使用與瀏覽器是不可分割的，為了從瀏覽器解放，由美國工程師 ryan Dahl 創造，起源於 200">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/06/13/2019-6-13_Install_Node.js/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用 Node.js | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/13/2019-6-13_Install_Node.js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用 Node.js
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">2019-06-13</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>關於JavaScript開發環境的練習，認識工具，安裝 Node.js 以及相關會使用到的工具 Express、 handlerbars</p>
+<h2 id="2W"><a href="#2W" class="headerlink" title="2W"></a>2W</h2><h3 id="what"><a href="#what" class="headerlink" title="what?"></a>what?</h3><h4 id="Node-js-是什麼"><a href="#Node-js-是什麼" class="headerlink" title="Node.js 是什麼?"></a>Node.js 是什麼?</h4><p>Node.js 是為 JavaScript 執行環境(run-time envirnment)，由於 JavaScript 的使用與瀏覽器是不可分割的，為了從瀏覽器解放，由美國工程師 <code>ryan Dahl</code> 創造，起源於 2006年。</p>
+<h4 id="Express-是什麼"><a href="#Express-是什麼" class="headerlink" title="Express 是什麼?"></a>Express 是什麼?</h4><p>Express 是一種 <code>網路框架(web framework)</code>。讓開發者能夠在 Node.js 上面使用，快速的開發網頁應用程式。</p>
+<h4 id="Nodemon-是什麼"><a href="#Nodemon-是什麼" class="headerlink" title="Nodemon 是什麼?"></a>Nodemon 是什麼?</h4><p>nodemon 是用以偵測開發者專案內的檔案，如果檔案更新了，不必再使用 <code>ctrl + c</code> 重新啟動伺服器，可以直接更新瀏覽器，查看畫面結果。</p>
+<h3 id="why"><a href="#why" class="headerlink" title="why?"></a>why?</h3><p>node.js 被創造起因為了解決瀏覽器上傳同步緩慢問題。</p>
+<p>優點:</p>
+<ul>
+<li>能快速處理大量資料</li>
+<li>執行同時，可修正錯誤</li>
+<li>很多人使用</li>
+</ul>
+<h4 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h4><p>使用 Express 的好處，經由打包好的模組，只要輸入幾個指令便可以輕鬆地將伺服器架設好，而且使用的人很多。</p>
+<h4 id="Nodemon"><a href="#Nodemon" class="headerlink" title="Nodemon"></a>Nodemon</h4><p>省卻重新啟動伺服器的繁瑣動作，使開發者可以專心在開發上。</p>
+<h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><h3 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h3><p>node.js 從<a href="https://nodejs.org/en/" target="_blank" rel="noopener">官方網</a> 可以選擇 LTS 、 Current 版本，一個為穩定版比較不會出現 bug 適合多種環境使用，一個為較常更新的版本，使用著較新的技術，但可能會出現 bug 機會可能會多一些。</p>
+<p>除了直接下載安裝，可以使用 terminal 透過 nvm 安裝 Node.js，以利於在不同的版本之間切換。</p>
+<p>可參考連結文件進行實際安裝</p>
+<ul>
+<li><a href="https://github.com/nvm-sh/nvm" target="_blank" rel="noopener">macOS</a></li>
+<li><a href="https://github.com/coreybutler/nvm-windows" target="_blank" rel="noopener">Windows</a></li>
+</ul>
+<h3 id="Express-1"><a href="#Express-1" class="headerlink" title="Express"></a>Express</h3><p>在安裝 Node.js 的時候會順帶的安裝 <code>npm</code>， npm 是 Node.js 的套件管理器- <code>Node Package Manager</code></p>
+<p>許多開發者為了增加效率會開發好用的 JavaScript 工具，並分享使用，為了方便搜尋使用，便有了<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a> 。</p>
+<p>安裝 Express</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm i express</span><br></pre></td></tr></table></figure>
+<p><code>npm i express</code> 或 <code>npm install express</code> 都是一樣的意思，安裝不同的套件的時候可以透過 <code>npm i &lt;package&gt;</code> 安裝。</p>
+<p>實際運用上，創建一個資料夾，初始化設定，在專案中建立 <code>package.json</code> 檔案，是為了管理套件工具，之後在裡面安裝 Express</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">cd test</span><br><span class="line">npm init -y</span><br><span class="line">npm i express</span><br></pre></td></tr></table></figure>
+<p><code>npm init -y</code> 中 <code>-y</code> 可以默認預設，減少時間在設定上。</p>
+<h3 id="Nodemon-1"><a href="#Nodemon-1" class="headerlink" title="Nodemon"></a>Nodemon</h3><p>安裝 <a href="https://www.npmjs.com/package/nodemon" target="_blank" rel="noopener">Nodemon</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm i -g nodemon</span><br></pre></td></tr></table></figure>
+<p><code>-g</code> 是 <code>--global</code> 縮寫，是在電腦做 <strong>全域安裝</strong> 安裝過後一次便不用再重新下載安裝。</p>
+<h2 id="使用-nodemon-代替-node"><a href="#使用-nodemon-代替-node" class="headerlink" title="使用 nodemon 代替 node"></a>使用 nodemon 代替 node</h2><p>接下來就可以輕鬆使用 <code>nodemon</code> 愉快的測試專案了<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nodemon index.js</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/express/" rel="tag"># express</a>
+          
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+          
+            <a href="/tags/nodemon/" rel="tag"># nodemon</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/2019-6-13_trash_talk/" rel="next" title="幹話產生器">
+                <i class="fa fa-chevron-left"></i> 幹話產生器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/14/2019-6-14_generate_password/" rel="prev" title="隨機產生一組密碼">
+                隨機產生一組密碼 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2W"><span class="nav-number">1.</span> <span class="nav-text">2W</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#what"><span class="nav-number">1.1.</span> <span class="nav-text">what?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Node-js-是什麼"><span class="nav-number">1.1.1.</span> <span class="nav-text">Node.js 是什麼?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Express-是什麼"><span class="nav-number">1.1.2.</span> <span class="nav-text">Express 是什麼?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nodemon-是什麼"><span class="nav-number">1.1.3.</span> <span class="nav-text">Nodemon 是什麼?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#why"><span class="nav-number">1.2.</span> <span class="nav-text">why?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Express"><span class="nav-number">1.2.1.</span> <span class="nav-text">Express</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nodemon"><span class="nav-number">1.2.2.</span> <span class="nav-text">Nodemon</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install"><span class="nav-number">2.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-js"><span class="nav-number">2.1.</span> <span class="nav-text">Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Express-1"><span class="nav-number">2.2.</span> <span class="nav-text">Express</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nodemon-1"><span class="nav-number">2.3.</span> <span class="nav-text">Nodemon</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-nodemon-代替-node"><span class="nav-number">3.</span> <span class="nav-text">使用 nodemon 代替 node</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

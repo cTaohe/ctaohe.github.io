@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="透過 AC 課程作業，利用 node.js 環境加上 express 和 handlerbars 等工具進行實作，主要紀錄邏輯想法。 安裝mkdir trash_talkcd trash_talknpm init -ynpm i express express-handlerbars body-parser 設定資料修改 package.json &amp;quot;description&amp;quot;:">
+<meta name="keywords" content="express,Node.js,handlerbars">
+<meta property="og:type" content="article">
+<meta property="og:title" content="幹話產生器">
+<meta property="og:url" content="https://ctaohe.github.io/2019/06/13/2019-6-13_trash_talk/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="透過 AC 課程作業，利用 node.js 環境加上 express 和 handlerbars 等工具進行實作，主要紀錄邏輯想法。 安裝mkdir trash_talkcd trash_talknpm init -ynpm i express express-handlerbars body-parser 設定資料修改 package.json &amp;quot;description&amp;quot;:">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-06-14T08:25:42.017Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="幹話產生器">
+<meta name="twitter:description" content="透過 AC 課程作業，利用 node.js 環境加上 express 和 handlerbars 等工具進行實作，主要紀錄邏輯想法。 安裝mkdir trash_talkcd trash_talknpm init -ynpm i express express-handlerbars body-parser 設定資料修改 package.json &amp;quot;description&amp;quot;:">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/06/13/2019-6-13_trash_talk/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>幹話產生器 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/13/2019-6-13_trash_talk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">幹話產生器
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">2019-06-13</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>透過 AC 課程作業，利用 node.js 環境加上 express 和 handlerbars 等工具進行實作，主要紀錄邏輯想法。</p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir trash_talk</span><br><span class="line">cd trash_talk</span><br><span class="line">npm init -y</span><br><span class="line">npm i express express-handlerbars body-parser</span><br></pre></td></tr></table></figure>
+<h2 id="設定資料"><a href="#設定資料" class="headerlink" title="設定資料"></a>設定資料</h2><p>修改 <code>package.json</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;description&quot;: &quot;新增描述&quot;,</span><br><span class="line">&quot;main&quot;: &quot;app.js&quot;,</span><br><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;start&quot;: &quot;node app.js&quot;,</span><br><span class="line">  &quot;dev&quot;: &quot;nodemon app.js&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>全部需要新增的資料，<code>app.js</code>、<code>trashTalk.js</code>、<code>character.json</code>、<code>/views/layouts/mian.handlebars</code>、<code>/views/index.handlebars</code>，css、JS 檔案<code>/public/javascripts/&lt;引入資料&gt;</code>、<code>/public/stylesheets/&lt;引入資料&gt;</code>。</p>
+<h2 id="邏輯講述"><a href="#邏輯講述" class="headerlink" title="邏輯講述"></a>邏輯講述</h2><p>我的作法是經由 character.json 創造一個資料庫存放腳色及幹話數據，再藉由匯入讀取資訊。</p>
+<p>例:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;腳色&quot;:[</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;學生&quot;,</span><br><span class="line">      &quot;name_en&quot;: &quot;student&quot;,</span><br><span class="line">      &quot;image&quot;: &quot;./public/img/student.jpg&quot;,</span><br><span class="line">      &quot;trash&quot;: [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;]</span><br><span class="line">    &#125;,</span><br><span class="line">    .</span><br><span class="line">    .</span><br><span class="line">    .</span><br><span class="line">    .</span><br><span class="line">  ],</span><br><span class="line">  &quot;共用句&quot;:[</span><br><span class="line">    &quot;一&quot;,</span><br><span class="line">    &quot;二&quot;,</span><br><span class="line">    &quot;三&quot;,</span><br><span class="line">    &quot;四&quot;,</span><br><span class="line">    &quot;五&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在網頁上我們可以選擇腳色，目前一次只能選擇一位，選擇資後按下 <code>產生幹話</code> ，在旁邊的顯示區塊便會隨機組合句子:</p>
+<ul>
+<li>身為一個<code>學生</code>，<code>0</code>應該<code>四</code>吧!</li>
+<li>身為一個<code>學生</code>，<code>3</code>應該<code>一</code>吧!</li>
+</ul>
+<p>腳色職業選定後，會對應到 <code>trash</code> 然後隨機選擇陣列中的一個值&#40;value&#41;，再將它放到句子中應該去的位子，而共用的句子也是同樣的道理。</p>
+<p>這邊必須使用到兩次的同樣方式的隨機選取陣列，設定一個 function 以方便使用</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomIndex</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> index = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * arr.length)</span><br><span class="line">  <span class="keyword">return</span> arr[index]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再來要設置一個產生 trash talk 的 function<br>先建立一個簡單虛擬碼</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateTrashTalk</span>(<span class="params">option</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//使用 if/eles 比對 req.body 傳入的職業 </span></span><br><span class="line">  <span class="keyword">if</span> (option.job === <span class="string">'職業1'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`身為一個<span class="subst">$&#123;職業<span class="number">1</span>&#125;</span>,<span class="subst">$&#123;randomIndex(trash)&#125;</span>應該<span class="subst">$&#123;randomIndex(共用句)&#125;</span>!`</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (option.job === <span class="string">'職業2'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`身為一個<span class="subst">$&#123;職業<span class="number">1</span>&#125;</span>,<span class="subst">$&#123;randomIndex(trash)&#125;</span>應該<span class="subst">$&#123;randomIndex(共用句)&#125;</span>!`</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (option.job === <span class="string">'職業3'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`身為一個<span class="subst">$&#123;職業<span class="number">3</span>&#125;</span>,<span class="subst">$&#123;randomIndex(trash)&#125;</span>應該<span class="subst">$&#123;randomIndex(共用句)&#125;</span>!`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>考慮到可能在預設的狀況下也有人，不選擇按產生幹話</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateTrashTalk</span>(<span class="params">job</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//如果什麼都沒按</span></span><br><span class="line">  <span class="keyword">if</span> (job === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`沒有選擇人物!`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此便簡單設置好邏輯再來就是將 <code>trash_talk.js</code> 設置匯出的 function 名稱</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// exports function</span></span><br><span class="line"><span class="built_in">module</span>.exports = generateTrashTalk</span><br></pre></td></tr></table></figure>
+<h3 id="邏輯補充"><a href="#邏輯補充" class="headerlink" title="邏輯補充"></a>邏輯補充</h3><p>在阿全同學作業中的邏輯判斷是這樣，判斷 <code>req.body.job</code> 是否為 <code>true</code> ，也就是裡面有沒有值，如果是真，那就回傳想要的句子，如果是 <code>false</code> 那就回傳請選擇人物，如此一來code就完全的簡化了。</p>
+<p>而在另一位同學駱駱作業，助教給了一個建議，可以使用 <code>find()</code> 方法尋找相對應的值，而 find 是 array.prototype.find 的方法，適用在尋找 array 中的 value。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank" rel="noopener">MDN</a>給了這樣的解釋是，它會尋找出在陣列中第一個符合條件的值，並且回傳 value。</p>
+<p>而我做成的作業在尋找進 <code>character</code> 之後，還是一個 hash ，但是又進一步的尋找 <code>job_en</code>，相當只比對全部人的 job_en 而且只回傳比對到的第一個，所以在沒有多筆從重複的資料才可以使用，之後就可以這樣寫:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateTrashTalk</span>(<span class="params">job</span>)</span>&#123;</span><br><span class="line">  <span class="comment">// 回傳符合條件的第一個值為 man</span></span><br><span class="line">  cosnt man = characters.chatcater.find(<span class="function"><span class="params">person</span> =&gt;</span> person.job_en === job)</span><br><span class="line">  </span><br><span class="line">  (job) ? <span class="string">`身為一個<span class="subst">$&#123;職業<span class="number">3</span>&#125;</span>,<span class="subst">$&#123;randomIndex(trash)&#125;</span>應該<span class="subst">$&#123;randomIndex(共用句)&#125;</span>!`</span> : <span class="string">`沒有選擇人物!`</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="app-js-設定"><a href="#app-js-設定" class="headerlink" title="app.js 設定"></a>app.js 設定</h2><p>架設伺服器配置</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 引入 express module 以及自定義檔案</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"><span class="keyword">const</span> port = <span class="number">3000</span></span><br><span class="line"><span class="keyword">const</span> trashTalk = <span class="built_in">require</span>(<span class="string">'./trsh_talk.js'</span>)</span><br><span class="line"><span class="keyword">const</span> character = <span class="built_in">require</span>(<span class="string">'./character.json'</span>)</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 引入套件</span></span><br><span class="line"><span class="keyword">const</span> exphbs = <span class="built_in">require</span>(<span class="string">'express-handlebars'</span>)</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 由於有使用 handlebars 所以需引入 render engine</span></span><br><span class="line">app.engine(<span class="string">'handlebars'</span>, exphbs(&#123; <span class="attr">defaultLayout</span>: <span class="string">'main'</span> &#125;))</span><br><span class="line">app.set(<span class="string">'view_engine'</span>, <span class="string">'handlebars'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 設定靜態網頁使用的檔案 public 的檔案，可以防止自訂CSS出錯</span></span><br><span class="line">app.use(express.static(<span class="string">'public'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 處理 exquest 和 response</span></span><br><span class="line">app.get(<span class="string">'/'</span>, (request, response) =&gt; &#123;</span><br><span class="line">  response.render(<span class="string">'index'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">app.post(<span class="string">'/'</span>, (request, response) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 經由 body-parser 解析資料</span></span><br><span class="line">  <span class="keyword">const</span> option = request.body</span><br><span class="line">  <span class="keyword">const</span> sentence = trashTalk(option)</span><br><span class="line">  response.render(<span class="string">'index'</span>, &#123;<span class="attr">option</span>:option , <span class="attr">sentence</span>:sentence, <span class="attr">character</span>:character&#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 啟動和監聽 server</span></span><br><span class="line">app.listen(port, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Express server is on http://lacolhost:<span class="subst">$&#123;port&#125;</span>`</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>所以大概的設定是這樣。</p>
+<h3 id="補充作業回饋"><a href="#補充作業回饋" class="headerlink" title="補充作業回饋"></a>補充作業回饋</h3><p>在作業回饋中，助教有說到，由於在 req.body 中只有一個值，也只要取得那個值，而我的值是設定 job，所以把 option 改成 job:<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> job = request.body.job</span><br><span class="line"><span class="keyword">const</span> sentence = trashTalk(job)</span><br></pre></td></tr></table></figure></p>
+<p>如此一來更容易了解，在帶入 trashTalk.js 檔案的時候也更簡潔明瞭。</p>
+<h2 id="關於-index-handlebars"><a href="#關於-index-handlebars" class="headerlink" title="關於 index.handlebars"></a>關於 index.handlebars</h2><p>這次的實作中，遇到了一個意想不到的問題，關於迭代的模板，又得要做 <code>if</code> 相等的判斷該怎麼辦，目前我的作法是使用 handlebars 中的自定義 helpers</p>
+<p>在模板中因為使用到了 <code>&lt;input type=&quot;radio&quot;&gt;</code>，而且又使用到了迭代&#40;Iteration&#41;，導致使用一般原本套件的 if 是不足以應付的，在原本 google 得到 helper 去判斷 checked 問題以為可以一勞永逸，沒想到怎麼跑都跑不出來。</p>
+<p><a href="https://stackoverflow.com/questions/34252817/handlebarsjs-check-if-a-string-is-equal-to-a-value" target="_blank" rel="noopener">stack Overflow</a></p>
+<p>設置一個 helper，自己定義一個 function</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> Handlebars = <span class="built_in">require</span>(<span class="string">'handlebars'</span>)</span><br><span class="line">Handlebars.registerHelper(<span class="string">'ifEquals'</span>, (value1, value2) =&gt; (value1 === value2) ? <span class="string">'checked'</span> : <span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<p>並且在迭代的template中加入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;ifEquals option.job this.job&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>這時候就遇到了麻煩了，由於我是使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;#each&#125;&#125;&#123;&#123;/each&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>在跑作用域的時候，<code>option</code> 也就是app.js中 <code>req.body</code> 的值，這個變數在index.handlebars 中根本無法取得，在傳入 function 中的會變成 undefine 是個空的資訊。</p>
+<p>為什麼會這樣呢?主要原因出在作用域(scope)時，在我的實作中，使用了 each 每一層的 this 不同，下一圈的時候 this 改變了，而 option 則是存在父層，得跳出迴圈去尋找父層(parent context)資訊，藉由詢問 Mike 才得以解決這個問題，尋找到的 <a href="https://stackoverflow.com/questions/12297959/access-properties-of-the-parent-with-a-handlebars-each-loop" target="_blank" rel="noopener">stack overflow資料</a></p>
+<p>關鍵字為<code>express handlebars each two argument</code></p>
+<p>可以看到使用了 <code>../</code> 這個往上層移動，最後在 template 中想要放置的位置改成<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;ifEquals ../option.job this.job&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果是使用兩層 <code>../../</code>，就可以再往上一層尋找了。</p>
+<p>重要資料</p>
+<ul>
+<li><a href="https://github.com/ericf/express-handlebars" target="_blank" rel="noopener">express-handlebars</a></li>
+<li><a href="http://handlebarsjs.com/#paths" target="_blank" rel="noopener">handlebars</a></li>
+</ul>
+<p>成品</p>
+<p><a href="https://github.com/cTaohe/trashTalk" target="_blank" rel="noopener">github</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/express/" rel="tag"># express</a>
+          
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+          
+            <a href="/tags/handlerbars/" rel="tag"># handlerbars</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/09/2019-6-9_Setting_VSCode_environment/" rel="next" title="設定 VSCode 環境">
+                <i class="fa fa-chevron-left"></i> 設定 VSCode 環境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/13/2019-6-13_Install_Node.js/" rel="prev" title="使用 Node.js">
+                使用 Node.js <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定資料"><span class="nav-number">2.</span> <span class="nav-text">設定資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#邏輯講述"><span class="nav-number">3.</span> <span class="nav-text">邏輯講述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#邏輯補充"><span class="nav-number">3.1.</span> <span class="nav-text">邏輯補充</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#app-js-設定"><span class="nav-number">4.</span> <span class="nav-text">app.js 設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#補充作業回饋"><span class="nav-number">4.1.</span> <span class="nav-text">補充作業回饋</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#關於-index-handlebars"><span class="nav-number">5.</span> <span class="nav-text">關於 index.handlebars</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

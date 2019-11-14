@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言從工程師角度了解產品設計思考，寫程式碼在產品開發中屬於後期階段，在這之前須要整理出一些資訊  產品規格 product specification 目標受眾 target audience 使用者故事 user stories  再依據收集到的材料，進行思考將問題拆解並實作。  想法到產品規格的流程及考量 產品設計中使用到的框架及工具 了解產品設計師的工作內容與目標 成功產品的關鍵因素有那些">
+<meta name="keywords" content="user experience">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alpha Camp 了解產品設計思考與使用者體驗(上)">
+<meta property="og:url" content="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart1/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="前言從工程師角度了解產品設計思考，寫程式碼在產品開發中屬於後期階段，在這之前須要整理出一些資訊  產品規格 product specification 目標受眾 target audience 使用者故事 user stories  再依據收集到的材料，進行思考將問題拆解並實作。  想法到產品規格的流程及考量 產品設計中使用到的框架及工具 了解產品設計師的工作內容與目標 成功產品的關鍵因素有那些">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-08-21T08:46:28.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alpha Camp 了解產品設計思考與使用者體驗(上)">
+<meta name="twitter:description" content="前言從工程師角度了解產品設計思考，寫程式碼在產品開發中屬於後期階段，在這之前須要整理出一些資訊  產品規格 product specification 目標受眾 target audience 使用者故事 user stories  再依據收集到的材料，進行思考將問題拆解並實作。  想法到產品規格的流程及考量 產品設計中使用到的框架及工具 了解產品設計師的工作內容與目標 成功產品的關鍵因素有那些">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart1/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Alpha Camp 了解產品設計思考與使用者體驗(上) | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/08/19/2019-8-19_UXpart1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Alpha Camp 了解產品設計思考與使用者體驗(上)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-08-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-19T00:00:00+08:00">2019-08-19</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UX/" itemprop="url" rel="index"><span itemprop="name">UX</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>從工程師角度了解產品設計思考，寫程式碼在產品開發中屬於後期階段，在這之前須要整理出一些資訊</p>
+<ul>
+<li>產品規格 product specification</li>
+<li>目標受眾 target audience</li>
+<li>使用者故事 user stories</li>
+</ul>
+<p>再依據收集到的材料，進行思考將問題拆解並實作。</p>
+<ul>
+<li>想法到產品規格的流程及考量</li>
+<li>產品設計中使用到的框架及工具</li>
+<li>了解產品設計師的工作內容與目標</li>
+<li>成功產品的關鍵因素有那些</li>
+</ul>
+<h2 id="使用者體驗-user-experience-UX"><a href="#使用者體驗-user-experience-UX" class="headerlink" title="使用者體驗(user experience - UX)"></a>使用者體驗(user experience - UX)</h2><p>在產品設計之前，必須先了解<code>使用者體驗</code>的概念，通常是指使用者對於產品及服務進行互動的過程、感覺。</p>
+<p>每一種產品都會有自己的使用者體驗，對於網路開發而言，網頁的呈現都會隱約地透露出一些訊息，其重點就是， <strong>不違反一般人的使用習慣(直覺反應)</strong> 、 <strong>適當的給予小提示</strong></p>
+<p>在使用產品過程中，體驗上的情感反應會影響使用者的下一步動作，當有負面情感時，在嚴重的情境下便會刪除軟件也是有可能的。</p>
+<h2 id="思考設計-design-thinking"><a href="#思考設計-design-thinking" class="headerlink" title="思考設計(design thinking)"></a>思考設計(design thinking)</h2><p>思考設計是以人為本的設計精神與方法，考慮人的需求與行為亦考慮科技、商業的可行性。與是屬於較為感性分析的方法。而設計思考不是一個直線性、不回頭的過程，在這之中可能會需要反覆推導、測試，通常不會順暢的找到正確答案。</p>
+<ul>
+<li>Empathize 同理心</li>
+<li>Define 定義問題</li>
+<li>Ideate 創意</li>
+<li>Prototype 製作原型</li>
+<li>Test 測試</li>
+</ul>
+<p>我們可以透過 2W1H 去一步步實現這個工具的流程。</p>
+<ol>
+<li>WHY  該步驟的目標?</li>
+<li>HOW  該步驟的具體作法?</li>
+<li>WHAT 完成步驟會得到甚麼結果?</li>
+<li>Key success factor 成功關鍵是甚麼?</li>
+</ol>
+<h3 id="Empathize"><a href="#Empathize" class="headerlink" title="Empathize"></a>Empathize</h3><p><strong>WHY?</strong></p>
+<p>思考設計建立在兩個假設上</p>
+<ul>
+<li>產品為使用者打造</li>
+<li>打造產品的人，其實不知道使用者真正需求</li>
+</ul>
+<p><strong>HOW?</strong></p>
+<p>基於假設，我們要以同理心了解使用者動機、以及要解決的問題、需要達到的目的、以及使用感受。所以可以透過各種方法去達成，互動訪談、焦點團體(focus group)訪談、問卷調查、實際使用場景觀察。</p>
+<p><strong>WHAT?</strong></p>
+<p>完成這幾個步驟，就可以為目標使用者建立<code>同理心地圖(empathy map)</code>，透過地圖描述使用者思想、言行、感覺。 讓我們可以方便進行下個步驟 <code>Define</code></p>
+<p><strong>KEY</strong></p>
+<ul>
+<li>開發團隊必須保持開方的學習心態。用心傾聽、忠實紀錄，不以預設立場過度解讀。</li>
+</ul>
+<h3 id="Define"><a href="#Define" class="headerlink" title="Define"></a>Define</h3><p><strong>WHY</strong></p>
+<p>透過<code>定義</code>讓開發團隊可以了解手上的資料，聚焦在解決使用者的問題。</p>
+<p><strong>HOW</strong></p>
+<p>在這個步驟是總結使用者需求的<code>問題描述(problem statment)</code>，將收集到的資料，進行研究、討論、整理、收斂，換句話說是 架構、刪去、挖深、組合。</p>
+<p><strong>WHAT?</strong></p>
+<p>可以使用簡短的句子表達清楚的問題描述，一個清楚的問題描述包含: 使用者、需求、動機。</p>
+<p>舉例:</p>
+<ul>
+<li>倉儲人員需要好用的工具提升理貨速度，因為想提早下班</li>
+<li>上班族需要有地方能代收網購商品，因為上班地方不方便收貨</li>
+</ul>
+<p><strong>KEY</strong></p>
+<ul>
+<li>團隊每人都能清楚掌握使用者需求的定義和重點。</li>
+<li>不追求標準答案，不思考結論是否正確，這個階段不需要驗證。</li>
+</ul>
+<h3 id="Ideate"><a href="#Ideate" class="headerlink" title="Ideate"></a>Ideate</h3><p><strong>WHY?</strong></p>
+<p>透過<code>定義</code>，了解當前需要解決的問題後，就可以開始思考解決方案了</p>
+<p><strong>HOW?</strong></p>
+<p>創意發想方法很多種，例如:腦力激盪、專家訪談、<a href="https://zh.wikipedia.org/wiki/%E5%85%AD%E9%A1%B6%E6%80%9D%E8%80%83%E5%B8%BD%E5%AD%90" target="_blank" rel="noopener">六項思考帽</a></p>
+<p>其中腦力激盪適當人數為 5~6 人，每人針對問題、需求、提出 2~3 個相對應解決想法。</p>
+<p>tip: 脫口而出的是「創意」、想太多就會容易變成「規格」。在這一步，我們需要的是創意。</p>
+<p><strong>WHAT?</strong></p>
+<p>完成後可以得到初步的概念或答案:<br><em>產品</em> 是能讓 <em>某些族群</em> 在 <em>某種場合</em> 做/得/達到 <em>某種任務/目標/利益</em> ，與市場上的其他產品不同的地方在於 <em>產品差異化/競爭優勢</em></p>
+<p><strong>KEY</strong></p>
+<p>創意發想的過程有三不五要原則</p>
+<ul>
+<li>不批評</li>
+<li>不打斷</li>
+<li>不離題</li>
+<li>要延續他人想法: 也就是鼓勵創意延伸，互相激發創意。</li>
+<li>要畫圖: 將想到的點子寫下來、畫下來，多使用形容詞進行描述發想，少使用名詞。</li>
+<li>要瘋狂、要數量: 對於點子越多越好，先不用擔心可行性</li>
+<li>要下標題</li>
+</ul>
+<h3 id="Prototype"><a href="#Prototype" class="headerlink" title="Prototype"></a>Prototype</h3><p><strong>WHY?</strong></p>
+<p>製作產品原型可以使開發更有效率， <code>產品原型</code>包含設計與開發。</p>
+<p><strong>HOW?</strong></p>
+<p>在製作的過程中會使用到 wireframe、mock-up 等工具。這是一個動手思考過程。</p>
+<p><strong>WHAT?</strong></p>
+<p>藉由簡略的草圖，作為不斷修整從而達到想要的效果，在這個階段的產品會將重要的功能/ user stories 全部展現出來、或是能夠操作。</p>
+<p><strong>KEY</strong></p>
+<p>不尋求完美，能夠快速製作出原型，藉由不斷修正達到完整效果，以相對較低的成本去探究實作可能的風險，從而考慮相對應的解決方案。</p>
+<h3 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h3><p><strong>WHY?</strong></p>
+<p>利用原型進行實際測試，透過原型與使用者進行互動、溝通。 讓我們更了解使用者、產品。</p>
+<p><strong>HOW?</strong></p>
+<p>通常會透過情境模擬，讓同一個使用者在此情境中完成多個任務，讓團隊可以從旁觀察使用者反映、了解使用狀況及回應。</p>
+<p><strong>WHAT?</strong></p>
+<p>最後根據觀察使用者的反應，重新定義(Define)需求或是改進，讓我們可以達到目的地，了解使用者，並開發出符合需求的產品。</p>
+<p><strong>KEY</strong></p>
+<p>開發團隊在測試階段與同理心階段相似，忠實紀錄，不為使用者遇到問題找理由。</p>
+<h3 id="精神"><a href="#精神" class="headerlink" title="精神"></a>精神</h3><p>以 史丹佛大學(Standford University) D-School 設計思考訓練，提出的精神為</p>
+<ul>
+<li>以人為本: 以人為設計的出發點，以使用者觀點體驗。</li>
+<li>及早失敗: 寧可在早期成本與時間投入相對較少的情況下，早點知道失敗並對其做相對應修正。</li>
+<li>跨域團隊合作: 不同背景的成員具有不同專長、不同觀點。透過不同觀點容易激發出更多的創新。</li>
+<li>做中學習: 實地動手做出原型。從實做的過程中，進一步的學習。</li>
+<li>同理心: 如同使用者一樣的角度，理解他人，感同身受的體驗。</li>
+<li>快速原型製作: 從簡易粗糙的模型開始，快速完成，以方便快速反應修正。</li>
+</ul>
+<h2 id="從購物體驗了解設計思考"><a href="#從購物體驗了解設計思考" class="headerlink" title="從購物體驗了解設計思考"></a>從購物體驗了解設計思考</h2><p>問題一：請在「不使用搜尋功能」的情況下，計時看看你分別花了多少時間在這兩個購物網站看到第一個適合放在陽台的曬衣架？</p>
+<p>  不使用搜尋功能的條件下，我針對三個不同的日常用品進行搜尋，分別是曬衣架、果汁機、手機保護貼。<br>  其中秒數分別為<br>  PChome: 20秒、25秒、13秒 平均19秒<br>  蝦皮: 25秒、120秒、15秒 平均53秒</p>
+<p>  在不使用搜尋的方式下，蝦皮的尋找的時間較長，是因為對於分類較為不熟悉所導致。</p>
+<p>問題二：現在觀察 PChome 與蝦皮的首頁。請描述這兩個電商平台把產品分類的方法。</p>
+<p>  PChome:<br>  導覽列:</p>
+<ul>
+<li>針對不同管理部門，給予不同的連結，線上購物、24h購物、購物中心、書店等等</li>
+<li><p>在產品主分類大致為電器類、非電器類。第二層分類依照使用面向進行分類(電器類:通訊、數位、家電，非電器:日常、生活、食品、美妝)，在分類之下依照常用工具大分類。</p>
+<p>頁面呈現</p>
+</li>
+<li>導覽列占總畫面多數，畫面以上方及左側皆使用分類導覽。</li>
+<li><p>除導覽列之外，先讓各大項分類有進行各種促銷活動的商品進行呈現，在促銷商品之下，呈現使用者曾經搜尋過可能會需要的商品，最後呈現熱銷商品、非主要促銷的新降價產品。</p>
+<p>蝦皮:</p>
+</li>
+<li>首頁主要先以促銷、活動擺在最上面，依序呈現產品分類、小活動、商城促銷、熱銷商品、最後才是隨機商品。</li>
+<li>產品分類上電器用品(通訊與周邊、3C、家電)，非電器則將主要男女用品進行細分、及非電器的食衣住行用品。</li>
+<li>在分類之下則是以商城擁有的大品牌為主要進行銷售，最後才會呈現個人賣家商品。</li>
+</ul>
+<p>問題三：針對都有在 PChome 與蝦皮上販售的同一樣產品，請問在哪個平台頁面中呈現給你的訊息較能幫助你進行決定？為什麼？</p>
+<p>  依照同一商品來看<br>  PChome: </p>
+<ul>
+<li>價格</li>
+<li>多種的付款管道、方式。</li>
+<li>詳細的官方商品說明。</li>
+<li>較固定的配送時間及運費。</li>
+<li><p>退貨方式明確</p>
+<p>蝦皮:</p>
+</li>
+<li>價格。</li>
+<li>買家對於賣家及商品評價。</li>
+<li>運費、出貨時間。</li>
+<li><p>能與賣家溝通。</p>
+<p>在都找的到同一產品情況下， PChome 對我而言會是比較容易去購買的管道，主因說明上較為清楚，運送時間較容易掌控，退貨機制明確方便。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/user-experience/" rel="tag"># user experience</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/30/2019-7-31_JS_bubble/" rel="next" title="Bubbling & Capturing">
+                <i class="fa fa-chevron-left"></i> Bubbling & Capturing
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/19/2019-8-19_UXpart2/" rel="prev" title="Alpha Camp 了解產品設計思考與使用者體驗(下)">
+                Alpha Camp 了解產品設計思考與使用者體驗(下) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用者體驗-user-experience-UX"><span class="nav-number">2.</span> <span class="nav-text">使用者體驗(user experience - UX)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思考設計-design-thinking"><span class="nav-number">3.</span> <span class="nav-text">思考設計(design thinking)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Empathize"><span class="nav-number">3.1.</span> <span class="nav-text">Empathize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define"><span class="nav-number">3.2.</span> <span class="nav-text">Define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ideate"><span class="nav-number">3.3.</span> <span class="nav-text">Ideate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prototype"><span class="nav-number">3.4.</span> <span class="nav-text">Prototype</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test"><span class="nav-number">3.5.</span> <span class="nav-text">Test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#精神"><span class="nav-number">3.6.</span> <span class="nav-text">精神</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#從購物體驗了解設計思考"><span class="nav-number">4.</span> <span class="nav-text">從購物體驗了解設計思考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

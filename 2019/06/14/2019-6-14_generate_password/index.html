@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-TW">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="AC 課程教材，講解在 RESTful 中的 POST 與 GET 差異，以及產生密碼邏輯。 GET 與 POST 差異&amp;lt;form&amp;gt; 表單元素中有 action、method。&amp;lt;form action=&quot;/&quot; method=&quot;POST&quot;&amp;gt;&amp;lt;/form&amp;gt; action 表示資料傳送到哪個路由的路徑，/表示根目錄，傳到根目錄。 method 表示傳送表單使用 HTT">
+<meta name="keywords" content="express,Node.js,handlerbars">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隨機產生一組密碼">
+<meta property="og:url" content="https://ctaohe.github.io/2019/06/14/2019-6-14_generate_password/index.html">
+<meta property="og:site_name" content="Tao&#39;s Blog">
+<meta property="og:description" content="AC 課程教材，講解在 RESTful 中的 POST 與 GET 差異，以及產生密碼邏輯。 GET 與 POST 差異&amp;lt;form&amp;gt; 表單元素中有 action、method。&amp;lt;form action=&quot;/&quot; method=&quot;POST&quot;&amp;gt;&amp;lt;/form&amp;gt; action 表示資料傳送到哪個路由的路徑，/表示根目錄，傳到根目錄。 method 表示傳送表單使用 HTT">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:updated_time" content="2019-06-14T12:43:19.643Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="隨機產生一組密碼">
+<meta name="twitter:description" content="AC 課程教材，講解在 RESTful 中的 POST 與 GET 差異，以及產生密碼邏輯。 GET 與 POST 差異&amp;lt;form&amp;gt; 表單元素中有 action、method。&amp;lt;form action=&quot;/&quot; method=&quot;POST&quot;&amp;gt;&amp;lt;/form&amp;gt; action 表示資料傳送到哪個路由的路徑，/表示根目錄，傳到根目錄。 method 表示傳送表單使用 HTT">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Tao's Blog" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://ctaohe.github.io/2019/06/14/2019-6-14_generate_password/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>隨機產生一組密碼 | Tao's Blog</title>
+  
+
+
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140711514-1"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-140711514-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-TW">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">學習筆記</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切換導航欄">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首頁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>關於</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>標籤</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分類</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>歸檔</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://ctaohe.github.io/2019/06/14/2019-6-14_generate_password/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tao Chen">
+      <meta itemprop="description" content="carpe diem">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">隨機產生一組密碼
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+
+              
+                
+              
+
+              <time title="創建時間：2019-06-14 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-14T00:00:00+08:00">2019-06-14</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/實作/" itemprop="url" rel="index"><span itemprop="name">實作</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>AC 課程教材，講解在 RESTful 中的 POST 與 GET 差異，以及產生密碼邏輯。</p>
+<h2 id="GET-與-POST-差異"><a href="#GET-與-POST-差異" class="headerlink" title="GET 與 POST 差異"></a>GET 與 POST 差異</h2><p><code>&lt;form&gt;</code> 表單元素中有 <code>action</code>、<code>method</code>。<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/"</span> <span class="attr">method</span>=<span class="string">"POST"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>action</code> 表示資料傳送到哪個路由的路徑，<code>/</code>表示根目錄，傳到根目錄。</p>
+<p><code>method</code> 表示傳送表單使用 HTTP method，在沒有寫 method 之下，預設屬性 <code>GET</code>，而使用 <code>POST</code> 好處是傳輸了之後，在網址列的部分看不到資料，這樣可以將重要資料隱藏起來。</p>
+<p>使用 <code>GET</code> 搜尋或送出表單會發現，在原本網址後面出現了 <code>?</code>， <code>?</code> 稱為查詢字串(queryString)，queryString 讓伺服器知道我們從哪個管道進入網站或分享資訊，使用 GET 查詢的資訊則都會出現在 ? 之後。</p>
+<p>所以在原本的渲染設定中，要在設定一個 POST 的方法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.post(<span class="string">'/'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  res.render(<span class="string">'index'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>使用了 POST 請求之後，在送出表單時會有資料傳送過來，稱為<code>req.body</code>，要解析這個資料，需要安裝 <code>body-parser</code>。</p>
+<h3 id="安裝-body-parser"><a href="#安裝-body-parser" class="headerlink" title="安裝 body-parser"></a>安裝 body-parser</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install body-parser</span><br></pre></td></tr></table></figure>
+<p>在 express 載入</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;))</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>app.use</code> 表示路由不管哪裡近來先經過它來處理。</li>
+<li><code>bodyParser.urlencoded({ extended: true })</code> 是 body-parser 提供的方法，用以處理 <code>URL-encoded</code> 格式的請求。</li>
+</ul>
+<h2 id="產生密碼"><a href="#產生密碼" class="headerlink" title="產生密碼"></a>產生密碼</h2><p>在送出表單後，<code>?</code> 後面 出現的 length=5&amp;lowercase=on 等資訊，而<code>length</code>、<code>lowercase</code>是怎麼來的呢? 它是對應到 input 當中 name 屬性，當在 checkbox 有勾選時，就會呈現 on，長度就會出現需要的數字</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line">  &lt;input type=<span class="string">"number"</span> name=<span class="string">"length"</span> id=<span class="string">"length"</span> min=<span class="string">"4"</span> max=<span class="string">"16"</span>&gt; <span class="comment">//type是數字，最短4 最長16</span></span><br><span class="line">  &lt;input type=<span class="string">"checkbox"</span> name=<span class="string">"lowercase"</span> id=<span class="string">"lowercase"</span>&gt;</span><br><span class="line">  &lt;input type=<span class="string">"text"</span> neme=<span class="string">"excludeCharacters"</span> id=<span class="string">"exclude-characters"</span>&gt;</span><br><span class="line">  &lt;button type=<span class="string">"submit"</span>&gt;Submit&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>form&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="邏輯"><a href="#邏輯" class="headerlink" title="邏輯"></a>邏輯</h3><p>與抽獎問題類似</p>
+<ol>
+<li>將分門別類需要的東西放入箱子</li>
+<li>將不需要的東西從箱子挑出來</li>
+<li>設定要抽幾次</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 定義可以使用的所有元素</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 放入選擇的元素</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 移除不需要的元素</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 產生密碼</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 返回密碼</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所有這裡讓元素皆為字串，讓整個 code 看起來更精簡，所以可以看成 string ，使用 string 方法 <code>split()</code> ，將字串變成 array，當 split() 不放入參數的時候，會將 string 直接放入 array，如果放入參數便以參數為分割</p>
+<h4 id="創造陣列、放入元素"><a href="#創造陣列、放入元素" class="headerlink" title="創造陣列、放入元素"></a>創造陣列、放入元素</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> str = <span class="string">'ab.cd'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ex1</span></span><br><span class="line">str.split() <span class="comment">// ['ab.cd']</span></span><br><span class="line"><span class="comment">// ex2</span></span><br><span class="line">str.split(<span class="string">''</span>) <span class="comment">// ['a', 'b', '.', 'c', 'd']</span></span><br><span class="line"><span class="comment">// ex3</span></span><br><span class="line">str.split(.) <span class="comment">// ['ab','cd']</span></span><br></pre></td></tr></table></figure>
+<p>課程提出了一個在 ES6 所發表的發法更為簡單，使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax" target="_blank" rel="noopener">spread syntax</a><br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> collection = [...str] <span class="comment">// ['a', 'b', '.', 'c', 'd']</span></span><br></pre></td></tr></table></figure></p>
+<p>由於有多個不同的 string 轉成 array 也是分開的，要將其合併使用 <code>concat()</code>，是屬於 array method 只能針對 array 使用<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> arr1 = [<span class="string">'abc'</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="string">'def'</span>]</span><br><span class="line"><span class="keyword">const</span> arr3 = arr1.concat(arr2) <span class="comment">// ['abc','def']</span></span><br></pre></td></tr></table></figure></p>
+<p>合起來就是<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> lowerCase = <span class="string">'abcdef'</span></span><br><span class="line"><span class="keyword">let</span> collection = []</span><br><span class="line">collection = collection.concat(lowerCase.split(<span class="string">''</span>))</span><br></pre></td></tr></table></figure></p>
+<p>越多不同的元素放進去東西就會越多</p>
+<h4 id="移除不想要的元素"><a href="#移除不想要的元素" class="headerlink" title="移除不想要的元素"></a>移除不想要的元素</h4><ul>
+<li><a href>string.prototype.includes()</a> : 檢查是否有不想要元素，會回傳 <code>true</code> or <code>false</code>。</li>
+<li><a href>array.prototype.filter()</a> : 過濾不想要的元素，會保留符合條件，也就是為 <code>ture</code> 的 value，如果要相反資料要告訴他 return false。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">箱子.includes(要剔除的元素) <span class="comment">//比對</span></span><br></pre></td></tr></table></figure>
+<p>如果兩個有 string 比對成功會是 <code>true</code> ，表示有資料要處理就得使用 filter 去將 array 中的 value 剃除，<code>true</code>會保存資料所以也就是讓他回傳 <code>false</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">collection = collection.filter( <span class="function"><span class="params">arr</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> !箱子.includes(要剃除的元素) <span class="comment">// 回傳不相符合 false 的資料，也就是要的元素。</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>如果只是要回傳 true 或 false 不做其他資料處理可以改寫成<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">collection = collection.filter(</span><br><span class="line">  arr =&gt; !箱子.includes(要剃除的元素)</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h4 id="抽出元素符合需要的長度"><a href="#抽出元素符合需要的長度" class="headerlink" title="抽出元素符合需要的長度"></a>抽出元素符合需要的長度</h4><p>先不考慮長度，思考如何隨機抽出，使用 <code>Math.random</code> 產生隨機數、<code>Math.floor</code> 無條件捨去小數點，將它放入函式。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sample</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="built_in">Math</span>.floor( <span class="built_in">Math</span>.random() * arr.length)</span><br><span class="line">  <span class="keyword">return</span> arr[index]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著要考慮到密碼長度，可以使用 <code>for</code> 迴圈，以及將字串連結起來。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> password = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++)&#123;</span><br><span class="line">  password += sample(collention)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="保留選項"><a href="#保留選項" class="headerlink" title="保留選項"></a>保留選項</h2><p>使用 handlebars 語法，在 template <code>&lt;input&gt;</code>加入判斷放在標籤尾部:<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#123;#if&#125;&#125;checked&#123;&#123;/if&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>記得要把在 <code>app.js</code> 將 <code>req.body</code> 需要判斷的值傳入。</p>
+<h2 id="處理錯誤"><a href="#處理錯誤" class="headerlink" title="處理錯誤"></a>處理錯誤</h2><p>如果漏填在送出表單後還是會出現東西，可是卻是 <code>undefine</code>，是因為 collection 是為空陣列導致，用 if 判斷式解決這個問題。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (collection === <span class="number">0</span>) <span class="string">'是空的'</span></span><br></pre></td></tr></table></figure></p>
+<p>這樣即使使用排除的元素將原本的需要元素陣列通通排除了之後，還是可以正常顯示我們需要傳達的資訊。</p>
+<p>最後再將這份資料回傳到 app.js 讓它匯入<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">module.exports = function名稱</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/express/" rel="tag"># express</a>
+          
+            <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+          
+            <a href="/tags/handlerbars/" rel="tag"># handlerbars</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/2019-6-13_Install_Node.js/" rel="next" title="使用 Node.js">
+                <i class="fa fa-chevron-left"></i> 使用 Node.js
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/15/2019-6-15_html-table/" rel="prev" title="The Web Developer Bootcamp table excise">
+                The Web Developer Bootcamp table excise <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概要
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Tao Chen">
+            
+              <p class="site-author-name" itemprop="name">Tao Chen</p>
+              <div class="site-description motion-element" itemprop="description">carpe diem</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-name">文章</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分類</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-name">標籤</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/cTaohe" title="GitHub &rarr; https://github.com/cTaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:a751029@hotmail.com" title="E-Mail &rarr; mailto:a751029@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/taohe.chen" title="FB Page &rarr; https://www.facebook.com/taohe.chen" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://medium.com/@ctaohe" title="Medium &rarr; https://medium.com/@ctaohe" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Medium</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GET-與-POST-差異"><span class="nav-number">1.</span> <span class="nav-text">GET 與 POST 差異</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-body-parser"><span class="nav-number">1.1.</span> <span class="nav-text">安裝 body-parser</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#產生密碼"><span class="nav-number">2.</span> <span class="nav-text">產生密碼</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#邏輯"><span class="nav-number">2.1.</span> <span class="nav-text">邏輯</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#創造陣列、放入元素"><span class="nav-number">2.1.1.</span> <span class="nav-text">創造陣列、放入元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#移除不想要的元素"><span class="nav-number">2.1.2.</span> <span class="nav-text">移除不想要的元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽出元素符合需要的長度"><span class="nav-number">2.1.3.</span> <span class="nav-text">抽出元素符合需要的長度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保留選項"><span class="nav-number">3.</span> <span class="nav-text">保留選項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#處理錯誤"><span class="nav-number">4.</span> <span class="nav-text">處理錯誤</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tao Chen</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
